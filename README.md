@@ -44,6 +44,23 @@ pre-commit install
 
 This will install several code formatting tools and set them up to run before commits. Also, it will run tests before pushing.
 
+### Docs
+To update the docs to the latest changes
+
+```bash
+cd docs
+make html
+```
+
+### Version bumping
+This project uses [bump](https://pypi.org/project/bump/) to quickly bump versions.
+By default running `bump` will bump the patch version. You can bump minor/major versions like so:
+
+```bash
+bump --minor
+bump --major
+```
+
 ## Tests
 The `tests` folder contains several tests that run using `pytest` that should give you an idea of how to use this.
 
