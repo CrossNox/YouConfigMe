@@ -3,7 +3,7 @@
 from setuptools import setup
 
 setup(
-    name='babikes',
+    name='youconfigme',
     version='0.0.1',
     description='',
     url='https://github.com/crossnox/YouConfigMe',
