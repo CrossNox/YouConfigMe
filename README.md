@@ -46,3 +46,34 @@ This will install several code formatting tools and set them up to run before co
 
 ## Tests
 The `tests` folder contains several tests that run using `pytest` that should give you an idea of how to use this.
+
+## Quickstart
+
+Assume you have an `.ini` file at the root of your project that looks like this:
+
+```ini
+[a]
+key1=1
+key2=2
+
+[b]
+key3=3
+key4=4
+```
+
+You can use it like this:
+
+```python3
+from youconfigme import AutoConfig, ConfigItemNotFound
+import os
+
+os.environ["A_KEY4"] = "key4value"
+config = AutoConfig()
+
+
+print(config.a.key1(cast=int))  			# returns 1
+print(config.a.key2())						# returns '2'
+print(config.a.key3())						# raises ConfigItemNotFound
+print(config.a.key3(default='key3value'))	# return 'key3value'
+print(config.a.key4())						# returns 'key4value'
+```
