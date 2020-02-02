@@ -22,6 +22,7 @@ setup(
             'pylint',
             'sphinx',
             'bump',
+            'sphinx_rtd_theme',
         ],
     },
     packages=['youconfigme'],
