@@ -8,7 +8,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>youconfigme package &mdash; YouConfigMe 0.1.1 documentation</title>
+  <title>youconfigme package &mdash; YouConfigMe 0.2.2 documentation</title>
 
 
 
@@ -85,8 +85,6 @@
 <li class="toctree-l1"><a class="reference internal" href="readme.html#youconfigme">YouConfigMe</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">youconfigme</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">youconfigme package</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-youconfigme.youconfigme">youconfigme.youconfigme module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-youconfigme">Module contents</a></li>
 </ul>
 </li>
@@ -160,80 +158,23 @@
 
   <div class="section" id="youconfigme-package">
 <h1>youconfigme package<a class="headerlink" href="#youconfigme-package" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="module-youconfigme.youconfigme">
-<span id="youconfigme-youconfigme-module"></span><h2>youconfigme.youconfigme module<a class="headerlink" href="#module-youconfigme.youconfigme" title="Permalink to this headline">¶</a></h2>
-<p>Main module for youconfigme</p>
-<dl class="class">
-<dt id="youconfigme.youconfigme.AutoConfig">
-<em class="property">class </em><code class="sig-prename descclassname">youconfigme.youconfigme.</code><code class="sig-name descname">AutoConfig</code><span class="sig-paren">(</span><em class="sig-param">max_up_levels=1</em><span class="sig-paren">)</span><a class="headerlink" href="#youconfigme.youconfigme.AutoConfig" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#youconfigme.youconfigme.Config" title="youconfigme.youconfigme.Config"><code class="xref py py-class docutils literal notranslate"><span class="pre">youconfigme.youconfigme.Config</span></code></a></p>
-<p>Safe Config item.</p>
-<p>It searches for an <cite>ini</cite> file upwards. If there’s no <cite>ini</cite> file, it returns an
-empty Config file that can be used with defaults and/or env vars.</p>
-</dd></dl>
-
-<dl class="class">
-<dt id="youconfigme.youconfigme.Config">
-<em class="property">class </em><code class="sig-prename descclassname">youconfigme.youconfigme.</code><code class="sig-name descname">Config</code><span class="sig-paren">(</span><em class="sig-param">from_items='settings.ini'</em>, <em class="sig-param">default_section='settings'</em><span class="sig-paren">)</span><a class="headerlink" href="#youconfigme.youconfigme.Config" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Base Config item</p>
-</dd></dl>
-
-<dl class="class">
-<dt id="youconfigme.youconfigme.ConfigAttribute">
-<em class="property">class </em><code class="sig-prename descclassname">youconfigme.youconfigme.</code><code class="sig-name descname">ConfigAttribute</code><span class="sig-paren">(</span><em class="sig-param">name</em>, <em class="sig-param">value</em>, <em class="sig-param">section_name</em><span class="sig-paren">)</span><a class="headerlink" href="#youconfigme.youconfigme.ConfigAttribute" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Handles an attribute in the following order:
-1) config value
-2) default value
-3) environment variable value</p>
-</dd></dl>
-
-<dl class="exception">
-<dt id="youconfigme.youconfigme.ConfigItemNotFound">
-<em class="property">exception </em><code class="sig-prename descclassname">youconfigme.youconfigme.</code><code class="sig-name descname">ConfigItemNotFound</code><a class="headerlink" href="#youconfigme.youconfigme.ConfigItemNotFound" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
-<p>The config item could not be found</p>
-</dd></dl>
-
-<dl class="class">
-<dt id="youconfigme.youconfigme.ConfigSection">
-<em class="property">class </em><code class="sig-prename descclassname">youconfigme.youconfigme.</code><code class="sig-name descname">ConfigSection</code><span class="sig-paren">(</span><em class="sig-param">name</em>, <em class="sig-param">items</em><span class="sig-paren">)</span><a class="headerlink" href="#youconfigme.youconfigme.ConfigSection" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>A section from a Config item</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="youconfigme.youconfigme.config_logger">
-<code class="sig-prename descclassname">youconfigme.youconfigme.</code><code class="sig-name descname">config_logger</code><span class="sig-paren">(</span><em class="sig-param">name</em><span class="sig-paren">)</span><a class="headerlink" href="#youconfigme.youconfigme.config_logger" title="Permalink to this definition">¶</a></dt>
-<dd><p>Helper function that sets logging for stream and file</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – name for the logger</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>the configured logger</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>logging.RootLogger</p>
-</dd>
-</dl>
-</dd></dl>
-
-</div>
 <div class="section" id="module-youconfigme">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-youconfigme" title="Permalink to this headline">¶</a></h2>
 <p>Entrypoint to make relevant classes available at the top level</p>
 <dl class="class">
 <dt id="youconfigme.AutoConfig">
 <em class="property">class </em><code class="sig-prename descclassname">youconfigme.</code><code class="sig-name descname">AutoConfig</code><span class="sig-paren">(</span><em class="sig-param">max_up_levels=1</em><span class="sig-paren">)</span><a class="headerlink" href="#youconfigme.AutoConfig" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#youconfigme.youconfigme.Config" title="youconfigme.youconfigme.Config"><code class="xref py py-class docutils literal notranslate"><span class="pre">youconfigme.youconfigme.Config</span></code></a></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">youconfigme.youconfigme.Config</span></code></p>
 <p>Safe Config item.</p>
 <p>It searches for an <cite>ini</cite> file upwards. If there’s no <cite>ini</cite> file, it returns an
 empty Config file that can be used with defaults and/or env vars.</p>
+<p>Creates a new AutoConfig item</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>max_up_levels</strong> (<em>int</em>) – how many parents should it traverse searching
+for an <cite>ini</cite> file</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="class">
@@ -241,6 +182,19 @@ empty Config file that can be used with defaults and/or env vars.</p>
 <em class="property">class </em><code class="sig-prename descclassname">youconfigme.</code><code class="sig-name descname">Config</code><span class="sig-paren">(</span><em class="sig-param">from_items='settings.ini'</em>, <em class="sig-param">default_section='settings'</em><span class="sig-paren">)</span><a class="headerlink" href="#youconfigme.Config" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Base Config item</p>
+<p>Creates a new Config item</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>from_items</strong> (<em>mapping</em><em> or </em><em>str</em><em> or </em><em>filename</em>) – where the config should be
+populated from:
+- filename: path for an <cite>ini</cite> file
+- mapping: mapping of sections -&gt; mapping of name -&gt; value
+- str: string representation of an <cite>ini</cite> file</p></li>
+<li><p><strong>default_section</strong> (<em>str</em>) – config items that need not be under a section</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="exception">
@@ -255,6 +209,15 @@ empty Config file that can be used with defaults and/or env vars.</p>
 <em class="property">class </em><code class="sig-prename descclassname">youconfigme.</code><code class="sig-name descname">ConfigSection</code><span class="sig-paren">(</span><em class="sig-param">name</em>, <em class="sig-param">items</em><span class="sig-paren">)</span><a class="headerlink" href="#youconfigme.ConfigSection" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>A section from a Config item</p>
+<p>Creates a new ConfigSection</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – name of the section</p></li>
+<li><p><strong>items</strong> (<em>mapping</em>) – mapping of attributes names to values</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 </div>

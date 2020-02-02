@@ -8,7 +8,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Readme &mdash; YouConfigMe 0.1.1 documentation</title>
+  <title>Readme &mdash; YouConfigMe 0.2.2 documentation</title>
 
 
 
@@ -92,7 +92,11 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#install">Install</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#development">Development</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#development">Development</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#docs">Docs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#version-bumping">Version bumping</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#tests">Tests</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#quickstart">Quickstart</a></li>
 </ul>
@@ -212,6 +216,23 @@ pip install .
 </pre></div>
 </div>
 <p>This will install several code formatting tools and set them up to run before commits. Also, it will run tests before pushing.</p>
+<div class="section" id="docs">
+<h3>Docs<a class="headerlink" href="#docs" title="Permalink to this headline">¶</a></h3>
+<p>To update the docs to the latest changes</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> docs
+make html
+</pre></div>
+</div>
+</div>
+<div class="section" id="version-bumping">
+<h3>Version bumping<a class="headerlink" href="#version-bumping" title="Permalink to this headline">¶</a></h3>
+<p>This project uses <a class="reference external" href="https://pypi.org/project/bump/">bump</a> to quickly bump versions.
+By default running <code class="docutils literal notranslate"><span class="pre">bump</span></code> will bump the patch version. You can bump minor/major versions like so:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>bump --minor
+bump --major
+</pre></div>
+</div>
+</div>
 </div>
 <div class="section" id="tests">
 <h2>Tests<a class="headerlink" href="#tests" title="Permalink to this headline">¶</a></h2>
