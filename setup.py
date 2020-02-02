@@ -2,15 +2,27 @@
 # pylint: disable=missing-function-docstring
 from setuptools import setup
 
+from youconfigme import __version__
+
 setup(
     name='youconfigme',
-    version='0.0.1',
+    version=__version__,
     description='',
     url='https://github.com/crossnox/YouConfigMe',
     author='CrossNox',
     install_requires=[],
     extras_require={
-        'dev': ['precommit', 'pytest', 'mypy', 'flake8', 'isort', 'black', 'pylint'],
+        'dev': [
+            'precommit',
+            'pytest',
+            'mypy',
+            'flake8',
+            'isort',
+            'black',
+            'pylint',
+            'sphinx',
+            'bump',
+        ],
     },
     packages=['youconfigme'],
     classifiers=['Programming Language :: Python :: 3'],
