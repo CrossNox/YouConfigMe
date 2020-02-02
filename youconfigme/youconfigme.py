@@ -8,7 +8,14 @@ from pathlib import Path
 
 
 def config_logger(name):
-    """Configures logging for stream and file"""
+    """Helper function that sets logging for stream and file
+
+    Args:
+        name (str): name for the logger
+
+    Returns:
+        logging.RootLogger: the configured logger
+    """
     logger = logging.getLogger(name)
     logger.setLevel(logging.DEBUG)
 
@@ -39,8 +46,6 @@ DEFAULT_SECTION = 'settings'
 INI_FILE = 'settings.ini'
 # ENV_FILE = 'settings.env'
 
-# config.section.value(default=None, cast=None)
-
 
 class ConfigItemNotFound(Exception):
     """The config item could not be found"""
@@ -59,6 +64,7 @@ class ConfigAttribute:
         Args:
             name (str): name of the attribute
             value (object): stringify-able object to be used as value
+            section_name (str): section where the value should be placed
         """
         self.name = name
         self.value = value
@@ -90,9 +96,15 @@ class ConfigAttribute:
 
 
 class ConfigSection:
-    """Wrapper around a config section"""
+    """A section from a Config item"""
 
     def __init__(self, name, items):
+        """Creates a new ConfigSection
+
+        Args:
+            name (str): name of the section
+            items (mapping): mapping of attributes names to values
+        """
         self.name = name
         self.items = items or {}
 
@@ -104,9 +116,19 @@ class ConfigSection:
 
 
 class Config:
-    """Wrapper around a config"""
+    """Base Config item"""
 
     def __init__(self, from_items=INI_FILE, default_section=DEFAULT_SECTION):
+        """Creates a new Config item
+
+        Args:
+            from_items (mapping or str or filename): where the config should be
+                populated from:
+                - filename: path for an `ini` file
+                - mapping: mapping of sections -> mapping of name -> value
+                - str: string representation of an `ini` file
+            default_section (str): config items that need not be under a section
+        """
         self.default_section = default_section
 
         if from_items is not None:
@@ -143,9 +165,19 @@ class Config:
 
 
 class AutoConfig(Config):
-    """Safe config creation"""
+    """Safe Config item.
+
+
+    It searches for an `ini` file upwards. If there's no `ini` file, it returns an
+    empty Config file that can be used with defaults and/or env vars."""
 
     def __init__(self, max_up_levels=1):
+        """Creates a new AutoConfig item
+
+        Args:
+            max_up_levels (int): how many parents should it traverse searching
+                for an `ini` file
+        """
         settings_file = Path.cwd() / INI_FILE
         for _ in range(max_up_levels + 1):
             try:

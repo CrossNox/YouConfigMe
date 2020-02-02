@@ -170,14 +170,16 @@
 <dt id="youconfigme.youconfigme.AutoConfig">
 <em class="property">class </em><code class="sig-prename descclassname">youconfigme.youconfigme.</code><code class="sig-name descname">AutoConfig</code><span class="sig-paren">(</span><em class="sig-param">max_up_levels=1</em><span class="sig-paren">)</span><a class="headerlink" href="#youconfigme.youconfigme.AutoConfig" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#youconfigme.youconfigme.Config" title="youconfigme.youconfigme.Config"><code class="xref py py-class docutils literal notranslate"><span class="pre">youconfigme.youconfigme.Config</span></code></a></p>
-<p>Safe config creation</p>
+<p>Safe Config item.</p>
+<p>It searches for an <cite>ini</cite> file upwards. If there’s no <cite>ini</cite> file, it returns an
+empty Config file that can be used with defaults and/or env vars.</p>
 </dd></dl>
 
 <dl class="class">
 <dt id="youconfigme.youconfigme.Config">
 <em class="property">class </em><code class="sig-prename descclassname">youconfigme.youconfigme.</code><code class="sig-name descname">Config</code><span class="sig-paren">(</span><em class="sig-param">from_items='settings.ini'</em>, <em class="sig-param">default_section='settings'</em><span class="sig-paren">)</span><a class="headerlink" href="#youconfigme.youconfigme.Config" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Wrapper around a config</p>
+<p>Base Config item</p>
 </dd></dl>
 
 <dl class="class">
@@ -201,13 +203,24 @@
 <dt id="youconfigme.youconfigme.ConfigSection">
 <em class="property">class </em><code class="sig-prename descclassname">youconfigme.youconfigme.</code><code class="sig-name descname">ConfigSection</code><span class="sig-paren">(</span><em class="sig-param">name</em>, <em class="sig-param">items</em><span class="sig-paren">)</span><a class="headerlink" href="#youconfigme.youconfigme.ConfigSection" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Wrapper around a config section</p>
+<p>A section from a Config item</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="youconfigme.youconfigme.config_logger">
 <code class="sig-prename descclassname">youconfigme.youconfigme.</code><code class="sig-name descname">config_logger</code><span class="sig-paren">(</span><em class="sig-param">name</em><span class="sig-paren">)</span><a class="headerlink" href="#youconfigme.youconfigme.config_logger" title="Permalink to this definition">¶</a></dt>
-<dd><p>Configures logging for stream and file</p>
+<dd><p>Helper function that sets logging for stream and file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – name for the logger</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the configured logger</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>logging.RootLogger</p>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
@@ -218,14 +231,16 @@
 <dt id="youconfigme.AutoConfig">
 <em class="property">class </em><code class="sig-prename descclassname">youconfigme.</code><code class="sig-name descname">AutoConfig</code><span class="sig-paren">(</span><em class="sig-param">max_up_levels=1</em><span class="sig-paren">)</span><a class="headerlink" href="#youconfigme.AutoConfig" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#youconfigme.youconfigme.Config" title="youconfigme.youconfigme.Config"><code class="xref py py-class docutils literal notranslate"><span class="pre">youconfigme.youconfigme.Config</span></code></a></p>
-<p>Safe config creation</p>
+<p>Safe Config item.</p>
+<p>It searches for an <cite>ini</cite> file upwards. If there’s no <cite>ini</cite> file, it returns an
+empty Config file that can be used with defaults and/or env vars.</p>
 </dd></dl>
 
 <dl class="class">
 <dt id="youconfigme.Config">
 <em class="property">class </em><code class="sig-prename descclassname">youconfigme.</code><code class="sig-name descname">Config</code><span class="sig-paren">(</span><em class="sig-param">from_items='settings.ini'</em>, <em class="sig-param">default_section='settings'</em><span class="sig-paren">)</span><a class="headerlink" href="#youconfigme.Config" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Wrapper around a config</p>
+<p>Base Config item</p>
 </dd></dl>
 
 <dl class="exception">
@@ -239,7 +254,7 @@
 <dt id="youconfigme.ConfigSection">
 <em class="property">class </em><code class="sig-prename descclassname">youconfigme.</code><code class="sig-name descname">ConfigSection</code><span class="sig-paren">(</span><em class="sig-param">name</em>, <em class="sig-param">items</em><span class="sig-paren">)</span><a class="headerlink" href="#youconfigme.ConfigSection" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Wrapper around a config section</p>
+<p>A section from a Config item</p>
 </dd></dl>
 
 </div>
