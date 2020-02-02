@@ -23,6 +23,7 @@ setup(
             'sphinx',
             'bump',
             'sphinx_rtd_theme',
+            'm2r',
         ],
     },
     packages=['youconfigme'],

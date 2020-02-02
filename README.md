@@ -23,7 +23,7 @@ Config sections are a good thing: separate your config vars under reasonable nam
 ## Install
 Clone this repo, and install it.
 
-```terminal
+```bash
 git clone https://github.com/CrossNox/YouConfigMe.git
 cd YouConfigMe
 pip install .
@@ -32,13 +32,13 @@ pip install .
 ## Development
 You can install YouConfigMe's dev packages to help.
 
-```terminal
+```bash
 pip install .[dev]
 ```
 
 After that, install the pre-commit hooks:
 
-```terminal
+```bash
 pre-commit install
 ```
 

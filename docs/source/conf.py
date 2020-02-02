@@ -33,6 +33,7 @@ release = __version__
 # ones.
 extensions = [
 	'sphinx.ext.napoleon',
+	'm2r'
 ]
 
 # Add any paths that contain templates here, relative to this directory.

@@ -8,7 +8,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>&lt;no title&gt; &mdash; YouConfigMe 0.1.1 documentation</title>
+  <title>Readme &mdash; YouConfigMe 0.1.1 documentation</title>
 
 
 
@@ -81,7 +81,21 @@
 
 
               <p class="caption"><span class="caption-text">Contents:</span></p>
-<ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Readme</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#youconfigme">YouConfigMe</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#core-ideas">Core ideas</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#explicit-is-better-than-implicit">Explicit is better than implicit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#defaults-are-reasonable">Defaults are reasonable</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#types-are-inherent-to-the-variable">Types are inherent to the variable</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sections-are-good">Sections are good</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#install">Install</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#development">Development</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tests">Tests</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">youconfigme</a></li>
 </ul>
 
@@ -128,7 +142,7 @@
 
       <li><a href="index.html">Docs</a> &raquo;</li>
 
-      <li>&lt;no title&gt;</li>
+      <li>Readme</li>
 
 
       <li class="wy-breadcrumbs-aside">
@@ -147,41 +161,62 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
 
-  <p># YouConfigMe</p>
+  <div class="section" id="readme">
+<h1>Readme<a class="headerlink" href="#readme" title="Permalink to this headline">¶</a></h1>
+</div>
+<div class="section" id="youconfigme">
+<h1>YouConfigMe<a class="headerlink" href="#youconfigme" title="Permalink to this headline">¶</a></h1>
 <p>YouConfigMe helps you manage config in a pythonic way.</p>
-<p>## Core ideas</p>
-<p>### Explicit is better than implicit
-There are several ways to define configuration variables, with different levels of explicitness.
+<div class="section" id="core-ideas">
+<h2>Core ideas<a class="headerlink" href="#core-ideas" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="explicit-is-better-than-implicit">
+<h3>Explicit is better than implicit<a class="headerlink" href="#explicit-is-better-than-implicit" title="Permalink to this headline">¶</a></h3>
+<p>There are several ways to define configuration variables, with different levels of explicitness.
 From most to less explicit:</p>
 <ul class="simple">
 <li><p>Variable defined in config file</p></li>
 <li><p>Variable set as env var</p></li>
 </ul>
-<p>### Defaults are reasonable
-Sometimes you might need a variable to exist even if it hasn’t been defined. So, you should be able to provide defaults.</p>
-<p>### Types are inherent to the variable
-Most of the time, variables are defined as strings, on <cite>.ini</cite> files or as env vars. But what if your variable is an <cite>int</cite>? You should be able to get it as an <cite>int</cite>.</p>
-<p>### Sections are good
-Config sections are a good thing: separate your config vars under reasonable namespaces.</p>
-<p>## Install
-Clone this repo, and install it.</p>
-<p><code class="docutils literal notranslate"><span class="pre">`terminal</span>
-<span class="pre">git</span> <span class="pre">clone</span> <span class="pre">https://github.com/CrossNox/YouConfigMe.git</span>
-<span class="pre">cd</span> <span class="pre">YouConfigMe</span>
-<span class="pre">pip</span> <span class="pre">install</span> <span class="pre">.</span>
-<span class="pre">`</span></code></p>
-<p>## Development
-You can install YouConfigMe’s dev packages to help.</p>
-<p><code class="docutils literal notranslate"><span class="pre">`terminal</span>
-<span class="pre">pip</span> <span class="pre">install</span> <span class="pre">.[dev]</span>
-<span class="pre">`</span></code></p>
+</div>
+<div class="section" id="defaults-are-reasonable">
+<h3>Defaults are reasonable<a class="headerlink" href="#defaults-are-reasonable" title="Permalink to this headline">¶</a></h3>
+<p>Sometimes you might need a variable to exist even if it hasn’t been defined. So, you should be able to provide defaults.</p>
+</div>
+<div class="section" id="types-are-inherent-to-the-variable">
+<h3>Types are inherent to the variable<a class="headerlink" href="#types-are-inherent-to-the-variable" title="Permalink to this headline">¶</a></h3>
+<p>Most of the time, variables are defined as strings, on <code class="docutils literal notranslate"><span class="pre">.ini</span></code> files or as env vars. But what if your variable is an <code class="docutils literal notranslate"><span class="pre">int</span></code>? You should be able to get it as an <code class="docutils literal notranslate"><span class="pre">int</span></code>.</p>
+</div>
+<div class="section" id="sections-are-good">
+<h3>Sections are good<a class="headerlink" href="#sections-are-good" title="Permalink to this headline">¶</a></h3>
+<p>Config sections are a good thing: separate your config vars under reasonable namespaces.</p>
+</div>
+</div>
+<div class="section" id="install">
+<h2>Install<a class="headerlink" href="#install" title="Permalink to this headline">¶</a></h2>
+<p>Clone this repo, and install it.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/CrossNox/YouConfigMe.git
+<span class="nb">cd</span> YouConfigMe
+pip install .
+</pre></div>
+</div>
+</div>
+<div class="section" id="development">
+<h2>Development<a class="headerlink" href="#development" title="Permalink to this headline">¶</a></h2>
+<p>You can install YouConfigMe’s dev packages to help.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install .<span class="o">[</span>dev<span class="o">]</span>
+</pre></div>
+</div>
 <p>After that, install the pre-commit hooks:</p>
-<p><code class="docutils literal notranslate"><span class="pre">`terminal</span>
-<span class="pre">pre-commit</span> <span class="pre">install</span>
-<span class="pre">`</span></code></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pre-commit install
+</pre></div>
+</div>
 <p>This will install several code formatting tools and set them up to run before commits. Also, it will run tests before pushing.</p>
-<p>## Tests
-The <cite>tests</cite> folder contains several tests that run using <cite>pytest</cite> that should give you an idea of how to use this.</p>
+</div>
+<div class="section" id="tests">
+<h2>Tests<a class="headerlink" href="#tests" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">tests</span></code> folder contains several tests that run using <code class="docutils literal notranslate"><span class="pre">pytest</span></code> that should give you an idea of how to use this.</p>
+</div>
+</div>
 
 
            </div>
