@@ -1,4 +1,8 @@
-"""Main module for youconfigme"""
+"""Main module for youconfigme
+
+Basically a Config is made out of ConfigSections.
+ConfigSections and Configs have ConfigAttributes.
+"""
 
 import io
 import logging
@@ -114,6 +118,15 @@ class ConfigSection:
     def __call__(self, default=None, cast=None):
         return ConfigAttribute(self.name, None, None)(default=default, cast=cast)
 
+    def to_dict(self):
+        ret_dict = {k: self.__getattr__(k)() for k in self.items.keys()}
+        section_prefix = f"{self.name.upper()}_"
+        for env_var, env_val in os.environ.items():
+            if env_var.startswith(section_prefix):
+                env_var = env_var.lstrip(section_prefix)
+                ret_dict[env_var] = self.__getattr__(env_var)()
+        return ret_dict
+
 
 class Config:
     """Base Config item"""
@@ -162,6 +175,9 @@ class Config:
 
     def __getattr__(self, name):
         return ConfigSection(name, None)
+
+    def to_dict(self):
+        pass
 
 
 class AutoConfig(Config):
