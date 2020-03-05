@@ -16,8 +16,9 @@ def read_readme():
 setup(
     name='youconfigme',
     version=__version__,
-    description=read_readme(),
-    description_content_type='text/markdown',
+    description='YouConfigMe helps you manage config in a pythonic way',
+    long_description=read_readme(),
+    long_description_content_type='text/markdown',
     url='https://github.com/crossnox/YouConfigMe',
     author='CrossNox',
     install_requires=[],
