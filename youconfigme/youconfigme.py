@@ -119,6 +119,8 @@ class ConfigSection:
         return ConfigAttribute(self.name, None, None)(default=default, cast=cast)
 
     def to_dict(self):
+        """Returns a dictionary with all the key:value pairs from the initial mapping,
+        neglecting environment variables not present there"""
         if self.items == {}:
             raise ConfigItemNotFound
         ret_dict = {k: self.__getattr__(k)() for k in self.items.keys()}
@@ -181,6 +183,8 @@ class Config:
         return ConfigSection(name, None)
 
     def to_dict(self):
+        """Returns a dictionary with all the key:value pairs from the initial mapping,
+        neglecting environment variables not present there"""
         ret_dict = {}
         for section in self.config_sections:
             ret_dict[section] = self.__getattribute__(section).to_dict()
