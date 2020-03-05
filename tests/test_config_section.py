@@ -18,6 +18,10 @@ def config_section():
     del os.environ['config_section_z']
 
 
+def test_to_dict(config_section):
+    assert config_section.to_dict() == {'z': '0'}
+
+
 def test_val_ex(config_section):
     assert config_section.z() == '0'
 

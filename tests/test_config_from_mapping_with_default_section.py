@@ -15,6 +15,23 @@ def config_dict_defs():
     )
 
 
+def test_config_from_mapping_defs_sa_to_dict(config_dict_defs):
+    assert config_dict_defs.a.to_dict() == {'k1': '1', 'k2': '2'}
+
+
+def test_config_from_mapping_defs_sb_to_dict(config_dict_defs):
+    with pytest.raises(ConfigItemNotFound):
+        config_dict_defs.b.to_dict()
+
+
+def test_config_from_mapping_defs_to_dict(config_dict_defs):
+    assert config_dict_defs.to_dict() == {
+        'a': {'k1': '1', 'k2': '2'},
+        'k3': '3',
+        'k4': '4',
+    }
+
+
 def test_config_from_mapping_defs_sa_k1(config_dict_defs):
     assert config_dict_defs.a.k1() == '1'
     assert config_dict_defs.a.k1(cast=int) == 1

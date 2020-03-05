@@ -20,6 +20,21 @@ k4=4
     return Config(from_items=s)
 
 
+def test_config_from_str_sa_to_dict(config_from_str):
+    assert config_from_str.a.to_dict() == {'k1': '1', 'k2': '2'}
+
+
+def test_config_from_str_sb_to_dict(config_from_str):
+    assert config_from_str.b.to_dict() == {'k3': '3', 'k4': '4'}
+
+
+def test_config_from_str_to_dict(config_from_str):
+    assert config_from_str.to_dict() == {
+        'a': {'k1': '1', 'k2': '2'},
+        'b': {'k3': '3', 'k4': '4'},
+    }
+
+
 def test_config_from_str_sa_k1(config_from_str):
     assert config_from_str.a.k1() == '1'
     assert config_from_str.a.k1(cast=int) == 1

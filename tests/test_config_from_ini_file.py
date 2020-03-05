@@ -25,6 +25,21 @@ k4=4
     return Config(from_items=tf.name)
 
 
+def test_config_from_tempfile_sa_to_dict(config_from_tempfile):
+    assert config_from_tempfile.a.to_dict() == {'k1': '1', 'k2': '2'}
+
+
+def test_config_from_tempfile_sb_to_dict(config_from_tempfile):
+    assert config_from_tempfile.b.to_dict() == {'k3': '3', 'k4': '4'}
+
+
+def test_config_from_tempfile_to_dict(config_from_tempfile):
+    assert config_from_tempfile.to_dict() == {
+        'a': {'k1': '1', 'k2': '2'},
+        'b': {'k3': '3', 'k4': '4'},
+    }
+
+
 def test_config_from_tempfile_sa_k1(config_from_tempfile):
     assert config_from_tempfile.a.k1() == '1'
     assert config_from_tempfile.a.k1(cast=int) == 1

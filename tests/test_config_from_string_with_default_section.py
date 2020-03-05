@@ -20,6 +20,23 @@ k4=4
     return Config(from_items=s, default_section='b')
 
 
+def test_config_from_str_defs_sa_to_dict(config_from_str_defs):
+    assert config_from_str_defs.a.to_dict() == {'k1': '1', 'k2': '2'}
+
+
+def test_config_from_str_defs_sb_to_dict(config_from_str_defs):
+    with pytest.raises(ConfigItemNotFound):
+        config_from_str_defs.b.to_dict()
+
+
+def test_config_from_str_defs_to_dict(config_from_str_defs):
+    assert config_from_str_defs.to_dict() == {
+        'a': {'k1': '1', 'k2': '2'},
+        'k3': '3',
+        'k4': '4',
+    }
+
+
 def test_config_from_str_defs_sa_k1(config_from_str_defs):
     assert config_from_str_defs.a.k1() == '1'
     assert config_from_str_defs.a.k1(cast=int) == 1

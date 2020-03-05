@@ -11,3 +11,5 @@ deploy:
   on:
     distributions: sdist bdist_wheel
     repo: CrossNox/YouConfigMe
+    branch: master
+  skip_existing: true

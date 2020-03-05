@@ -21,6 +21,23 @@ def config_dict_defs_osenv():
     del os.environ['K7']
 
 
+def test_config_from_mapping_env_defs_sa_to_dict(config_dict_defs_osenv):
+    assert config_dict_defs_osenv.a.to_dict() == {'k1': '1', 'k2': '2'}
+
+
+def test_config_from_mapping_env_defs_sb_to_dict(config_dict_defs_osenv):
+    with pytest.raises(ConfigItemNotFound):
+        config_dict_defs_osenv.b.to_dict()
+
+
+def test_config_from_mapping_env_defs_to_dict(config_dict_defs_osenv):
+    assert config_dict_defs_osenv.to_dict() == {
+        'a': {'k1': '1', 'k2': '2'},
+        'k3': '3',
+        'k4': '4',
+    }
+
+
 def test_config_from_mapping_env_defs_sa_k1(config_dict_defs_osenv):
     assert config_dict_defs_osenv.a.k1() == '1'
     assert config_dict_defs_osenv.a.k1(cast=int) == 1
