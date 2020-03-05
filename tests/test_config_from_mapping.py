@@ -12,6 +12,21 @@ def config_dict():
     return Config(from_items={'a': {'k1': 1, 'k2': 2}, 'b': {'k3': 3, 'k4': 4}})
 
 
+def test_config_from_mapping_sa_to_dict(config_dict):
+    assert config_dict.a.to_dict() == {'k1': '1', 'k2': '2'}
+
+
+def test_config_from_mapping_sb_to_dict(config_dict):
+    assert config_dict.b.to_dict() == {'k3': '3', 'k4': '4'}
+
+
+def test_config_from_mapping_to_dict(config_dict):
+    assert config_dict.to_dict() == {
+        'a': {'k1': '1', 'k2': '2'},
+        'b': {'k3': '3', 'k4': '4'},
+    }
+
+
 def test_config_from_mapping_sa_k1(config_dict):
     assert config_dict.a.k1() == '1'
     assert config_dict.a.k1(cast=int) == 1
