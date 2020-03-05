@@ -1,4 +1,5 @@
 # YouConfigMe
+[![Build Status](https://travis-ci.org/CrossNox/YouConfigMe.svg?branch=master)](https://travis-ci.org/CrossNox/YouConfigMe)
 
 YouConfigMe helps you manage config in a pythonic way.
 
