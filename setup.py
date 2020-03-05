@@ -17,7 +17,7 @@ setup(
     name='youconfigme',
     version=__version__,
     description=read_readme(),
-    long_description_content_type='text/markdown',
+    description_content_type='text/markdown',
     url='https://github.com/crossnox/YouConfigMe',
     author='CrossNox',
     install_requires=[],
