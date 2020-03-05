@@ -24,16 +24,18 @@ Config sections are a good thing: separate your config vars under reasonable nam
 Clone this repo, and install it.
 
 ```bash
-git clone https://github.com/CrossNox/YouConfigMe.git
-cd YouConfigMe
-pip install .
+pip install YouConfigMe
 ```
 
 ## Development
-You can install YouConfigMe's dev packages to help.
+Start by cloning the repo/forking it.
+
+
+You should install YouConfigMe's dev packages to help.
 
 ```bash
 pip install .[dev]
+pip install .[test]
 ```
 
 After that, install the pre-commit hooks:
@@ -88,9 +90,9 @@ os.environ["A_KEY4"] = "key4value"
 config = AutoConfig()
 
 
-print(config.a.key1(cast=int))  			# returns 1
-print(config.a.key2())						# returns '2'
-print(config.a.key3())						# raises ConfigItemNotFound
+print(config.a.key1(cast=int))  		# returns 1
+print(config.a.key2())				# returns '2'
+print(config.a.key3())				# raises ConfigItemNotFound
 print(config.a.key3(default='key3value'))	# return 'key3value'
-print(config.a.key4())						# returns 'key4value'
+print(config.a.key4())				# returns 'key4value'
 ```

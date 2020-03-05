@@ -1,13 +1,22 @@
 # pylint: disable=missing-module-docstring
 # pylint: disable=missing-function-docstring
+from pathlib import Path
+
 from setuptools import setup
 
 from youconfigme import __version__
 
+
+def read_readme():
+    readme_f = Path(__file__).parent / 'README.md'
+    with open(readme_f) as f:
+        return f.read()
+
+
 setup(
     name='youconfigme',
     version=__version__,
-    description='',
+    description=read_readme(),
     url='https://github.com/crossnox/YouConfigMe',
     author='CrossNox',
     install_requires=[],
