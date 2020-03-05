@@ -119,12 +119,9 @@ class ConfigSection:
         return ConfigAttribute(self.name, None, None)(default=default, cast=cast)
 
     def to_dict(self):
+        if self.items == {}:
+            raise ConfigItemNotFound
         ret_dict = {k: self.__getattr__(k)() for k in self.items.keys()}
-        section_prefix = f"{self.name.upper()}_"
-        for env_var, env_val in os.environ.items():
-            if env_var.startswith(section_prefix):
-                env_var = env_var.lstrip(section_prefix)
-                ret_dict[env_var] = self.__getattr__(env_var)()
         return ret_dict
 
 
@@ -143,6 +140,9 @@ class Config:
             default_section (str): config items that need not be under a section
         """
         self.default_section = default_section
+        self.fake_default_section = 'None' if default_section != 'None' else 'enoN'
+        self.config_sections = []
+        self.config_attributes = []
 
         if from_items is not None:
             try:
@@ -152,22 +152,26 @@ class Config:
 
     def _init_from_mapping(self, mapping):
         for section in mapping.keys():
+            if section == self.fake_default_section:
+                continue
             if section != self.default_section:
                 setattr(self, section, ConfigSection(section, mapping[section]))
+                self.config_sections.append(section)
             else:
                 for k, v in mapping[section].items():
                     setattr(self, k, ConfigAttribute(k, v, section))
+                    self.config_attributes.append(k)
 
     def _init_from_str(self, str_like):
         try:
             buf = io.StringIO(str_like)
-            cp = ConfigParser()
+            cp = ConfigParser(default_section=self.fake_default_section)
             cp.read_file(buf)
             self._init_from_mapping(cp)
         except Exception:
             cwd_file = Path.cwd() / str_like
             if cwd_file.is_file():
-                cp = ConfigParser()
+                cp = ConfigParser(default_section=self.fake_default_section)
                 cp.read(cwd_file)
                 self._init_from_mapping(cp)
             else:
@@ -177,7 +181,12 @@ class Config:
         return ConfigSection(name, None)
 
     def to_dict(self):
-        pass
+        ret_dict = {}
+        for section in self.config_sections:
+            ret_dict[section] = self.__getattribute__(section).to_dict()
+        for attribute in self.config_attributes:
+            ret_dict[attribute] = self.__getattribute__(attribute)()
+        return ret_dict
 
 
 class AutoConfig(Config):

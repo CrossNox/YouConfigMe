@@ -19,7 +19,7 @@ def config_section():
 
 
 def test_to_dict(config_section):
-    assert config_section.to_dict() == {'z': '0', 'DEBUSSY': '1'}
+    assert config_section.to_dict() == {'z': '0'}
 
 
 def test_val_ex(config_section):
