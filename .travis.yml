@@ -1,16 +1,13 @@
 language: python
-
 install:
-  - pip install .[test]
-
+- pip install .[test]
 script:
-  - pytest
-
+- pytest
 deploy:
   provider: pypi
-  username: "__token__"
+  username: __token__
   password:
-    secure: QiEOaic5krYqZHAxrybem6TXOczgAzf6ImeeLW339ZiJXmoX3Ww/VlEjxkX1dP9x3eXklHwuyfOFZrq7RazGS44y0E9o+ubDmc20aDiv9hGRCMQbo9ucfIZFMm0RidycdUZBL2S4aTUxGGBsa4+5BWTM9FTJeMc1cGFLeFOaf0Pdc235A5zNZN8AkME6yJLR79s4g9qusYpwsvr+63oFxpf+8/NnFJdDVuq+mVyXcYPY9zoaJYWJi+IXpUUAp8UmWvIB8StXGcQvZdO0BEgCymJaUNapsC3geXbf+xBrgmFSBHT0Owl9MN9ukyTvc1C74DXhCZRtIBhObBYqdnuo8lj/rXV2uc3lBJD05eDFXExtcR7Os/hr9jdK8tTkPtTMfBN1kXp2xkZW7KJB/5iT6MN3mZWkPO3pDqpmz/tX3R29w27FxM4PUhIWO7BMqdcGz1iXHEflw4EGW060Z4u5yuxSyJRac0kPCja5LmAP1s6F2DKffe4TIzsm/BZJwRSraeI2MB806BrwXX8uZhKepZxWXKVPBJ+0rQqRHDZ/DVlZE4JHCIB7wljB/so+pCg2PYyfFWK2O12IcmQYVu/9c0g8ukf3gwDec0wk7Z7YlI4Sv9QeATxtGwJ/8mF4uOd79+MfqcZISNYHRXbdgaVsafE6eKJsa5B4imsCa1qusGg=
+    secure: HZBkgdKKwkpK8gTjGinz7EOlb2SblMrrn9edV8Q9zAr18MGv0Zo721SqzuGttx8fhQZEn+xw97n5V41GcLZcIAeQ/DH1UL+Sfdu/VxpdtUNGPj1d7pBO/LbjUnNAT6pMlg3ZUpdEPOYiQi1QeeGaHJVLDhzaLpQugcEuSFY064Ogg0R0+dPz7QV//sYYpm2XD3G9jIv9kzsfyda2PpnWqSQfOKiCiKH/IavoCArC8rGwhuIKN4/04jS2jlDzy//mfPbgJNiPPqEJj8sEF9CsRORGFw9Tq+oYpf6lMddfppucvrZ+qsN/8t9oR/Ofi/NTQbsjEGpuj/Joha9AzDKPNoGYT6k2ZEh/odKRdghjuItwwoRtcPpRZkjV68NvPq/us8OeFA1NhaO9QBPfjRAWj5Ukb8WFPcGIsQ5lIzQNkSgTG/ZqgNOxOMrcmpu7lNoN1IShWVHKJ+ka5njEqjWbwObMWWcYvR7PwXat2/TBWwbO8cFVJZGr21eBMrMOAumYHFV4QfKTCzn+DKk5opdJSsugIOM0KEPbJL5VX7DK4syj/7VM9uuS2NusF439fyAtayE7TVcvRc5Ipp2g/6FcG0YSfa9zj45L6Nb826Fl0HN6HxaPlnACbAlpBsCwHZwal7FF/WtN+fmQcN7pcq9FZcUcvJMFuPTuh6+Qsn2hGnM=
   on:
     distributions: sdist bdist_wheel
     repo: CrossNox/YouConfigMe
