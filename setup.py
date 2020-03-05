@@ -12,9 +12,9 @@ setup(
     author='CrossNox',
     install_requires=[],
     extras_require={
+        'test': ['pytest'],
         'dev': [
             'precommit',
-            'pytest',
             'mypy',
             'flake8',
             'isort',
