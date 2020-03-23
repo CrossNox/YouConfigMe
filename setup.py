@@ -25,7 +25,7 @@ setup(
     extras_require={
         'test': ['pytest'],
         'dev': [
-            'precommit',
+            'pre-commit',
             'mypy',
             'flake8',
             'isort',

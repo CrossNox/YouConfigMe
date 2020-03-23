@@ -11,11 +11,12 @@ from configparser import ConfigParser
 from pathlib import Path
 
 
-def config_logger(name):
+def config_logger(name, to_file=False):
     """Helper function that sets logging for stream and file
 
     Args:
         name (str): name for the logger
+        to_file (bool): if true, add a file handler as well
 
     Returns:
         logging.RootLogger: the configured logger
@@ -27,18 +28,19 @@ def config_logger(name):
         '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
     )
 
-    ch = logging.StreamHandler()
-    ch.setLevel(logging.DEBUG)
-    ch.setFormatter(formatter)
-    logger.addHandler(ch)
+    console_handler = logging.StreamHandler()
+    console_handler.setLevel(logging.DEBUG)
+    console_handler.setFormatter(formatter)
+    logger.addHandler(console_handler)
 
-    try:
-        fh = logging.FileHandler(f'{name}.log')
-        fh.setLevel(logging.DEBUG)
-        fh.setFormatter(formatter)
-        logger.addHandler(fh)
-    except OSError:
-        pass
+    if to_file:
+        try:
+            file_handler = logging.FileHandler(f'{name}.log')
+            file_handler.setLevel(logging.DEBUG)
+            file_handler.setFormatter(formatter)
+            logger.addHandler(file_handler)
+        except OSError:
+            pass
 
     return logger
 
