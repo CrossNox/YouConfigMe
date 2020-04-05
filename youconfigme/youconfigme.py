@@ -1,4 +1,4 @@
-"""Main module for youconfigme
+"""Main module for youconfigme.
 
 Basically a Config is made out of ConfigSections.
 ConfigSections and Configs have ConfigAttributes.
@@ -7,12 +7,13 @@ ConfigSections and Configs have ConfigAttributes.
 import io
 import logging
 import os
+import sys
 from configparser import ConfigParser
 from pathlib import Path
 
 
 def config_logger(name, to_file=False):
-    """Helper function that sets logging for stream and file
+    """Set a new logger.
 
     Args:
         name (str): name for the logger
@@ -21,8 +22,8 @@ def config_logger(name, to_file=False):
     Returns:
         logging.RootLogger: the configured logger
     """
-    logger = logging.getLogger(name)
-    logger.setLevel(logging.DEBUG)
+    new_logger = logging.getLogger(name)
+    new_logger.setLevel(logging.DEBUG)
 
     formatter = logging.Formatter(
         '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
@@ -31,18 +32,18 @@ def config_logger(name, to_file=False):
     console_handler = logging.StreamHandler()
     console_handler.setLevel(logging.DEBUG)
     console_handler.setFormatter(formatter)
-    logger.addHandler(console_handler)
+    new_logger.addHandler(console_handler)
 
     if to_file:
         try:
             file_handler = logging.FileHandler(f'{name}.log')
             file_handler.setLevel(logging.DEBUG)
             file_handler.setFormatter(formatter)
-            logger.addHandler(file_handler)
+            new_logger.addHandler(file_handler)
         except OSError:
             pass
 
-    return logger
+    return new_logger
 
 
 logger = config_logger(__name__)
@@ -54,18 +55,20 @@ INI_FILE = 'settings.ini'
 
 
 class ConfigItemNotFound(Exception):
-    """The config item could not be found"""
+    """The config item could not be found."""
 
 
 class ConfigAttribute:
-    """Handles an attribute in the following order:
+    """Handles an attribute.
+
+    The order to do so is:
     1) config value
     2) default value
     3) environment variable value
     """
 
     def __init__(self, name, value, section_name):
-        """Creates a new attribute
+        """Create a new attribute.
 
         Args:
             name (str): name of the attribute
@@ -86,6 +89,20 @@ class ConfigAttribute:
             self.env = str(self.env)
 
     def __call__(self, default=None, cast=None):
+        """Call the item.
+
+        Follows the order of lookup.
+
+
+        Parameters:
+        -----------
+            default (str): default value if item not found
+            cast (callable): how to cast the item
+
+        Returns:
+        --------
+            Any: A str or casted item
+        """
         retval = None
         if self.value is not None:
             retval = self.value
@@ -98,14 +115,15 @@ class ConfigAttribute:
         return (cast or str)(retval)
 
     def __getattr__(self, name):
+        """Get attr that does not exist."""
         raise ConfigItemNotFound(f"section {name} not found")
 
 
 class ConfigSection:
-    """A section from a Config item"""
+    """A section from a Config item."""
 
     def __init__(self, name, items):
-        """Creates a new ConfigSection
+        """Create a new ConfigSection.
 
         Args:
             name (str): name of the section
@@ -115,14 +133,25 @@ class ConfigSection:
         self.items = items or {}
 
     def __getattr__(self, val):
+        """Get a new attribute."""
         return ConfigAttribute(val, self.items.get(val), self.name)
 
     def __call__(self, default=None, cast=None):
+        """Get attribute called as section."""
         return ConfigAttribute(self.name, None, None)(default=default, cast=cast)
 
     def to_dict(self):
-        """Returns a dictionary with all the key:value pairs from the initial mapping,
-        neglecting environment variables not present there"""
+        """Return as dict.
+
+        Parameters:
+        -----------
+            None
+
+        Returns:
+        --------
+            dict: all the key:value pairs from the initial mapping,
+        neglecting environment variables not present there
+        """
         if self.items == {}:
             raise ConfigItemNotFound
         ret_dict = {k: self.__getattr__(k)() for k in self.items.keys()}
@@ -130,10 +159,10 @@ class ConfigSection:
 
 
 class Config:
-    """Base Config item"""
+    """Base Config item."""
 
     def __init__(self, from_items=INI_FILE, default_section=DEFAULT_SECTION):
-        """Creates a new Config item
+        """Create a new Config item.
 
         Args:
             from_items (mapping or str or filename): where the config should be
@@ -169,24 +198,34 @@ class Config:
     def _init_from_str(self, str_like):
         try:
             buf = io.StringIO(str_like)
-            cp = ConfigParser(default_section=self.fake_default_section)
-            cp.read_file(buf)
-            self._init_from_mapping(cp)
-        except Exception:
+            config_parser = ConfigParser(default_section=self.fake_default_section)
+            config_parser.read_file(buf)
+            self._init_from_mapping(config_parser)
+        except Exception:  # pylint: disable=broad-except
             cwd_file = Path.cwd() / str_like
             if cwd_file.is_file():
-                cp = ConfigParser(default_section=self.fake_default_section)
-                cp.read(cwd_file)
-                self._init_from_mapping(cp)
+                config_parser = ConfigParser(default_section=self.fake_default_section)
+                config_parser.read(cwd_file)
+                self._init_from_mapping(config_parser)
             else:
                 raise FileNotFoundError
 
     def __getattr__(self, name):
+        """Get new section."""
         return ConfigSection(name, None)
 
     def to_dict(self):
-        """Returns a dictionary with all the key:value pairs from the initial mapping,
-        neglecting environment variables not present there"""
+        """Return as dict.
+
+        Parameters:
+        -----------
+            None
+
+        Returns:
+        --------
+            dict: all the key:value pairs from the initial mapping,
+        neglecting environment variables not present there
+        """
         ret_dict = {}
         for section in self.config_sections:
             ret_dict[section] = self.__getattribute__(section).to_dict()
@@ -195,24 +234,25 @@ class Config:
         return ret_dict
 
 
-class AutoConfig(Config):
+class AutoConfig(Config):  # pylint: disable=too-few-public-methods
     """Safe Config item.
 
-
-    It searches for an `ini` file upwards. If there's no `ini` file, it returns an
-    empty Config file that can be used with defaults and/or env vars."""
+    Searches for an `ini` file upwards. If there's no `ini` file, it returns an
+    empty Config file that can be used with defaults and/or env vars.
+    """
 
     def __init__(self, max_up_levels=1):
-        """Creates a new AutoConfig item
+        """Create a new AutoConfig item.
 
         Args:
             max_up_levels (int): how many parents should it traverse searching
                 for an `ini` file
         """
-        settings_file = Path.cwd() / INI_FILE
+        frame = sys._getframe()
+        settings_file = Path(frame.f_back.f_code.co_filename).parent / INI_FILE
         for _ in range(max_up_levels + 1):
             try:
-                logger.info(f"searching for config on {str(settings_file)}")
+                logger.info("searching for config on %s", str(settings_file))
                 super().__init__(from_items=str(settings_file))
                 return
             except FileNotFoundError:
