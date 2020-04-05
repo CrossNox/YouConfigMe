@@ -94,13 +94,11 @@ class ConfigAttribute:
         Follows the order of lookup.
 
 
-        Parameters:
-        -----------
+        Args:
             default (str): default value if item not found
             cast (callable): how to cast the item
 
         Returns:
-        --------
             Any: A str or casted item
         """
         retval = None
@@ -143,14 +141,12 @@ class ConfigSection:
     def to_dict(self):
         """Return as dict.
 
-        Parameters:
-        -----------
+        Args:
             None
 
         Returns:
-        --------
             dict: all the key:value pairs from the initial mapping,
-        neglecting environment variables not present there
+            neglecting environment variables not present there.
         """
         if self.items == {}:
             raise ConfigItemNotFound
@@ -217,14 +213,12 @@ class Config:
     def to_dict(self):
         """Return as dict.
 
-        Parameters:
-        -----------
+        Args:
             None
 
         Returns:
-        --------
             dict: all the key:value pairs from the initial mapping,
-        neglecting environment variables not present there
+            neglecting environment variables not present there.
         """
         ret_dict = {}
         for section in self.config_sections:

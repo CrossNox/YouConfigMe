@@ -5,62 +5,62 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>youconfigme package &mdash; YouConfigMe 0.3.0 documentation</title>
-  
 
-  
-  
-  
-  
+  <title>youconfigme package &mdash; YouConfigMe 0.5.2 documentation</title>
 
-  
+
+
+
+
+
+
+
   <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
-  
-    
+
+
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/language_data.js"></script>
-    
+
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
-    
 
-  
+
+
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="youconfigme" href="modules.html" /> 
+    <link rel="prev" title="youconfigme" href="modules.html" />
 </head>
 
 <body class="wy-body-for-nav">
 
-   
+
   <div class="wy-grid-for-nav">
-    
+
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
-          
+
+
             <a href="index.html" class="icon icon-home"> YouConfigMe
-          
 
-          
+
+
           </a>
 
-          
-            
-            
-          
 
-          
+
+
+
+
+
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -69,16 +69,16 @@
   </form>
 </div>
 
-          
+
         </div>
 
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+
+
+
+
+
+
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="readme.html">Readme</a></li>
@@ -92,28 +92,28 @@
 </li>
 </ul>
 
-            
-          
+
+
         </div>
       </div>
     </nav>
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
-      
+
       <nav class="wy-nav-top" aria-label="top navigation">
-        
+
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">YouConfigMe</a>
-        
+
       </nav>
 
 
       <div class="wy-nav-content">
-        
+
         <div class="rst-content">
-        
-          
+
+
 
 
 
@@ -132,45 +132,45 @@
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
-    
+
       <li><a href="index.html">Docs</a> &raquo;</li>
-        
+
           <li><a href="modules.html">youconfigme</a> &raquo;</li>
-        
+
       <li>youconfigme package</li>
-    
-    
+
+
       <li class="wy-breadcrumbs-aside">
-        
-            
-            
+
+
+
               <a href="https://github.com/CrossNox/YouConfigMe/blob/master/docs/source/youconfigme.rst" class="fa fa-github"> Edit on GitHub</a>
-            
-          
-        
+
+
+
       </li>
-    
+
   </ul>
 
-  
+
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
+
   <div class="section" id="youconfigme-package">
 <h1>youconfigme package<a class="headerlink" href="#youconfigme-package" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="module-youconfigme">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-youconfigme" title="Permalink to this headline">¶</a></h2>
-<p>Entrypoint to make relevant classes available at the top level</p>
+<p>Entrypoint to make relevant classes available at the top level.</p>
 <dl class="class">
 <dt id="youconfigme.AutoConfig">
 <em class="property">class </em><code class="sig-prename descclassname">youconfigme.</code><code class="sig-name descname">AutoConfig</code><span class="sig-paren">(</span><em class="sig-param">max_up_levels=1</em><span class="sig-paren">)</span><a class="headerlink" href="#youconfigme.AutoConfig" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">youconfigme.youconfigme.Config</span></code></p>
 <p>Safe Config item.</p>
-<p>It searches for an <cite>ini</cite> file upwards. If there’s no <cite>ini</cite> file, it returns an
+<p>Searches for an <cite>ini</cite> file upwards. If there’s no <cite>ini</cite> file, it returns an
 empty Config file that can be used with defaults and/or env vars.</p>
-<p>Creates a new AutoConfig item</p>
+<p>Create a new AutoConfig item.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>max_up_levels</strong> (<em>int</em>) – how many parents should it traverse searching
@@ -183,8 +183,8 @@ for an <cite>ini</cite> file</p>
 <dt id="youconfigme.Config">
 <em class="property">class </em><code class="sig-prename descclassname">youconfigme.</code><code class="sig-name descname">Config</code><span class="sig-paren">(</span><em class="sig-param">from_items='settings.ini'</em>, <em class="sig-param">default_section='settings'</em><span class="sig-paren">)</span><a class="headerlink" href="#youconfigme.Config" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Base Config item</p>
-<p>Creates a new Config item</p>
+<p>Base Config item.</p>
+<p>Create a new Config item.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -200,8 +200,16 @@ populated from:
 <dl class="method">
 <dt id="youconfigme.Config.to_dict">
 <code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#youconfigme.Config.to_dict" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a dictionary with all the key:value pairs from the initial mapping,
-neglecting environment variables not present there</p>
+<dd><p>Return as dict.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><em>dict</em> – all the key:value pairs from the initial mapping,
+neglecting environment variables not present there.</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -210,15 +218,15 @@ neglecting environment variables not present there</p>
 <dt id="youconfigme.ConfigItemNotFound">
 <em class="property">exception </em><code class="sig-prename descclassname">youconfigme.</code><code class="sig-name descname">ConfigItemNotFound</code><a class="headerlink" href="#youconfigme.ConfigItemNotFound" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
-<p>The config item could not be found</p>
+<p>The config item could not be found.</p>
 </dd></dl>
 
 <dl class="class">
 <dt id="youconfigme.ConfigSection">
 <em class="property">class </em><code class="sig-prename descclassname">youconfigme.</code><code class="sig-name descname">ConfigSection</code><span class="sig-paren">(</span><em class="sig-param">name</em>, <em class="sig-param">items</em><span class="sig-paren">)</span><a class="headerlink" href="#youconfigme.ConfigSection" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>A section from a Config item</p>
-<p>Creates a new ConfigSection</p>
+<p>A section from a Config item.</p>
+<p>Create a new ConfigSection.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -230,8 +238,16 @@ neglecting environment variables not present there</p>
 <dl class="method">
 <dt id="youconfigme.ConfigSection.to_dict">
 <code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#youconfigme.ConfigSection.to_dict" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a dictionary with all the key:value pairs from the initial mapping,
-neglecting environment variables not present there</p>
+<dd><p>Return as dict.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><em>dict</em> – all the key:value pairs from the initial mapping,
+neglecting environment variables not present there.</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -241,17 +257,17 @@ neglecting environment variables not present there</p>
 
 
            </div>
-           
+
           </div>
           <footer>
-  
+
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-      
+
+
         <a href="modules.html" class="btn btn-neutral float-left" title="youconfigme" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+
     </div>
-  
+
 
   <hr/>
 
@@ -261,7 +277,7 @@ neglecting environment variables not present there</p>
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
 
 </footer>
 
@@ -271,7 +287,7 @@ neglecting environment variables not present there</p>
     </section>
 
   </div>
-  
+
 
 
   <script type="text/javascript">
@@ -280,10 +296,10 @@ neglecting environment variables not present there</p>
       });
   </script>
 
-  
-  
-    
-   
+
+
+
+
 
 </body>
 </html>
