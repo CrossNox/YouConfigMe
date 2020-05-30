@@ -26,7 +26,7 @@ def config_logger(name, to_file=False):
     new_logger.setLevel(logging.DEBUG)
 
     formatter = logging.Formatter(
-        '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+        "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
     )
 
     console_handler = logging.StreamHandler()
@@ -36,7 +36,7 @@ def config_logger(name, to_file=False):
 
     if to_file:
         try:
-            file_handler = logging.FileHandler(f'{name}.log')
+            file_handler = logging.FileHandler(f"{name}.log")
             file_handler.setLevel(logging.DEBUG)
             file_handler.setFormatter(formatter)
             new_logger.addHandler(file_handler)
@@ -49,8 +49,8 @@ def config_logger(name, to_file=False):
 logger = config_logger(__name__)
 
 
-DEFAULT_SECTION = 'settings'
-INI_FILE = 'settings.ini'
+DEFAULT_SECTION = "settings"
+INI_FILE = "settings.ini"
 # ENV_FILE = 'settings.env'
 
 
@@ -169,7 +169,7 @@ class Config:
             default_section (str): config items that need not be under a section
         """
         self.default_section = default_section
-        self.fake_default_section = 'None' if default_section != 'None' else 'enoN'
+        self.fake_default_section = "None" if default_section != "None" else "enoN"
         self.config_sections = []
         self.config_attributes = []
 
@@ -250,6 +250,9 @@ class AutoConfig(Config):  # pylint: disable=too-few-public-methods
                 super().__init__(from_items=str(settings_file))
                 return
             except FileNotFoundError:
-                settings_file = settings_file.parents[1] / INI_FILE
+                try:
+                    settings_file = settings_file.parents[1] / INI_FILE
+                except IndexError:
+                    break
         logger.info("autoconfig - empty config")
         super().__init__(from_items=None)
