@@ -12,12 +12,11 @@ from configparser import ConfigParser
 from pathlib import Path
 
 
-def config_logger(name, to_file=False):
+def config_logger(name):
     """Set a new logger.
 
     Args:
         name (str): name for the logger
-        to_file (bool): if true, add a file handler as well
 
     Returns:
         logging.RootLogger: the configured logger
@@ -33,15 +32,6 @@ def config_logger(name, to_file=False):
     console_handler.setLevel(logging.DEBUG)
     console_handler.setFormatter(formatter)
     new_logger.addHandler(console_handler)
-
-    if to_file:
-        try:
-            file_handler = logging.FileHandler(f"{name}.log")
-            file_handler.setLevel(logging.DEBUG)
-            file_handler.setFormatter(formatter)
-            new_logger.addHandler(file_handler)
-        except OSError:
-            pass
 
     return new_logger
 
@@ -62,9 +52,9 @@ class ConfigAttribute:
     """Handles an attribute.
 
     The order to do so is:
-    1) config value
-    2) default value
-    3) environment variable value
+    1) environment variable value
+    2) config value
+    3) default value
     """
 
     def __init__(self, name, value, section_name):
@@ -102,12 +92,12 @@ class ConfigAttribute:
             Any: A str or casted item
         """
         retval = None
-        if self.value is not None:
+        if self.env is not None:
+            retval = self.env
+        elif self.value is not None:
             retval = self.value
         elif default is not None:
             retval = default
-        elif self.env is not None:
-            retval = self.env
         else:
             raise ConfigItemNotFound
         return (cast or str)(retval)
