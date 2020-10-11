@@ -1,5 +1,5 @@
 # YouConfigMe
-![PyPI - Downloads](https://img.shields.io/pypi/dm/youconfigme?style=flat-square) ![PyPI](https://img.shields.io/pypi/v/youconfigme?style=flat-square) ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/CrossNox/YouConfigMe/Run%20tests?label=tests&style=flat-square) ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/CrossNox/YouConfigMe/Run%20linters%20and%20formatters?label=lInting&style=flat-square) [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black&style=flat-square)
+![PyPI - Downloads](https://img.shields.io/pypi/dm/youconfigme?style=flat-square) ![PyPI](https://img.shields.io/pypi/v/youconfigme?style=flat-square) ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/CrossNox/YouConfigMe/Run%20tests?label=tests&style=flat-square) ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/CrossNox/YouConfigMe/Run%20linters%20and%20formatters?label=linting&style=flat-square) [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black&style=flat-square)
 
 YouConfigMe helps you manage config in a pythonic way.
 
