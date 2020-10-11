@@ -187,14 +187,14 @@ class Config:
             config_parser = ConfigParser(default_section=self.fake_default_section)
             config_parser.read_file(buf)
             self._init_from_mapping(config_parser)
-        except Exception:  # pylint: disable=broad-except
+        except Exception as e:  # pylint: disable=broad-except
             cwd_file = Path.cwd() / str_like
             if cwd_file.is_file():
                 config_parser = ConfigParser(default_section=self.fake_default_section)
                 config_parser.read(cwd_file)
                 self._init_from_mapping(config_parser)
             else:
-                raise FileNotFoundError
+                raise FileNotFoundError from e
 
     def __getattr__(self, name):
         """Get new section."""
