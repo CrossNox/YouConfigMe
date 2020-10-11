@@ -11,7 +11,7 @@ from youconfigme import Config, ConfigItemNotFound
 
 @pytest.fixture
 def config_from_tempfile():
-    s = """[a]
+    config_string = """[a]
 k1=1
 k2=2
 
@@ -19,10 +19,10 @@ k2=2
 k3=3
 k4=4
 """
-    tf = tempfile.NamedTemporaryFile(delete=False)
-    with open(tf.name, 'w') as f:
-        f.write(s)
-    return Config(from_items=tf.name)
+    temp_file = tempfile.NamedTemporaryFile(delete=False)
+    with open(temp_file.name, 'w') as f:
+        f.write(config_string)
+    return Config(from_items=temp_file.name)
 
 
 def test_config_from_tempfile_sa_to_dict(config_from_tempfile):
