@@ -53,8 +53,8 @@ def test_config_from_mapping_env_defs_sa_k2(config_dict_defs_osenv):
 
 
 def test_config_from_mapping_env_defs_sa_k7(config_dict_defs_osenv):
-    assert config_dict_defs_osenv.a.k7(default='777') == '777'
-    assert config_dict_defs_osenv.a.k7(default='777', cast=int) == 777
+    assert config_dict_defs_osenv.a.k7(default='777') == '7'
+    assert config_dict_defs_osenv.a.k7(default='777', cast=int) == 7
     assert config_dict_defs_osenv.a.k7() == '7'
     assert config_dict_defs_osenv.a.k7(cast=int) == 7
 
@@ -79,7 +79,7 @@ def test_config_from_mapping_env_defs_defset_k4(config_dict_defs_osenv):
 
 
 def test_config_from_mapping_env_defs_defset_k7(config_dict_defs_osenv):
-    assert config_dict_defs_osenv.k7(default='7') == '7'
-    assert config_dict_defs_osenv.k7(default='7', cast=int) == 7
+    assert config_dict_defs_osenv.k7(default='7') == '11'
+    assert config_dict_defs_osenv.k7(default='7', cast=int) == 11
     assert config_dict_defs_osenv.k7(cast=int) == 11
     assert config_dict_defs_osenv.k7() == '11'
