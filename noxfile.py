@@ -6,7 +6,7 @@ import nox
 def cop(session):
     """Run all pre-commit hooks."""
     session.install(".")
-    session.install(".[dev]")
+    session.install(".[dev,test]")
 
     session.run("pre-commit", "install")
     session.run("pre-commit", "run", "--show-diff-on-failure", "--all-files")
