@@ -23,6 +23,7 @@ author = 'CrossNox'
 
 # The full version, including alpha/beta/rc tags
 from youconfigme import __version__
+
 release = __version__
 
 
@@ -31,11 +32,7 @@ release = __version__
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = [
-    'sphinx.ext.napoleon',
-    "sphinx.ext.autodoc",
-    'm2r'
-]
+extensions = ['sphinx.ext.napoleon', "sphinx.ext.autodoc", 'm2r2']
 
 napoleon_use_rtype = False
 
@@ -69,5 +66,5 @@ html_context = {
     "github_repo": "YouConfigMe",
     "github_version": "master",
     "conf_py_path": "/docs/source/",
-    "source_suffix": ".rst"
+    "source_suffix": ".rst",
 }

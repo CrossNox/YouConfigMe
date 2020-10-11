@@ -9,7 +9,7 @@ from youconfigme import Config, ConfigItemNotFound
 
 @pytest.fixture
 def config_from_str():
-    s = """[a]
+    config_string = """[a]
 k1=1
 k2=2
 
@@ -17,7 +17,7 @@ k2=2
 k3=3
 k4=4
 """
-    return Config(from_items=s)
+    return Config(from_items=config_string)
 
 
 def test_config_from_str_sa_to_dict(config_from_str):

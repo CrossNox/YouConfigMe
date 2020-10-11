@@ -6,11 +6,7 @@ YouConfigMe helps you manage config in a pythonic way.
 ## Core ideas
 
 ### Explicit is better than implicit
-There are several ways to define configuration variables, with different levels of explicitness.
-From most to less explicit:
-
-- Variable defined in config file
-- Variable set as env var
+There are several ways to define configuration variables, with different levels of explicitness. I prefer to go as close as possible to the [Twelve Factor App](https://12factor.net/config) guide since it's what most people expect anyways.
 
 ### Defaults are reasonable
 Sometimes you might need a variable to exist even if it hasn't been defined. So, you should be able to provide defaults.
@@ -21,8 +17,17 @@ Most of the time, variables are defined as strings, on `.ini` files or as env va
 ### Sections are good
 Config sections are a good thing: separate your config vars under reasonable namespaces.
 
+## Motivation
+The main motivation for youconfigme to exist is that most simple config libraries do not take sections into account. And it bugs me greatly.
+
 ## Install
 Clone this repo, and install it.
+
+```bash
+pip install .
+```
+
+Or from PyPI.
 
 ```bash
 pip install YouConfigMe
@@ -30,7 +35,6 @@ pip install YouConfigMe
 
 ## Development
 Start by cloning the repo/forking it.
-
 
 You should install YouConfigMe's dev packages to help.
 
@@ -46,6 +50,8 @@ pre-commit install
 ```
 
 This will install several code formatting tools and set them up to run before commits. Also, it will run tests before pushing.
+
+You might find `nox` quite useful to run tests and ensure linting is as expected.
 
 ### Docs
 To update the docs to the latest changes
@@ -67,6 +73,13 @@ bump --major
 ## Tests
 The `tests` folder contains several tests that run using `pytest` that should give you an idea of how to use this.
 
+## Config discovery
+The preferred order should be:
+
+1. Environment variables
+2. Config file
+3. Default value
+
 ## Quickstart
 
 Assume you have an `.ini` file at the root of your project that looks like this:
@@ -75,6 +88,7 @@ Assume you have an `.ini` file at the root of your project that looks like this:
 [a]
 key1=1
 key2=2
+key7=7
 
 [b]
 key3=3
@@ -84,16 +98,19 @@ key4=4
 You can use it like this:
 
 ```python3
-from youconfigme import AutoConfig, ConfigItemNotFound
+from youconfigme import AutoConfig
 import os
 
 os.environ["A_KEY4"] = "key4value"
+os.environ["A_KEY7"] = "key7value"
 config = AutoConfig()
 
 
-print(config.a.key1(cast=int))  		# returns 1
-print(config.a.key2())				# returns '2'
+print(config.a.key1())				# returns '1'
+print(config.a.key1(cast=int))			# returns 1
+print(config.a.key2(default='default2val'))	# returns '2'
 print(config.a.key3())				# raises ConfigItemNotFound
 print(config.a.key3(default='key3value'))	# return 'key3value'
 print(config.a.key4())				# returns 'key4value'
+print(config.a.key7())				# returns 'key7value'
 ```
