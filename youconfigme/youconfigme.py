@@ -194,7 +194,7 @@ class Config:
                 config_parser.read(cwd_file)
                 self._init_from_mapping(config_parser)
             else:
-                raise FileNotFoundError
+                raise FileNotFoundError  # pylint: raise-missing-from
 
     def __getattr__(self, name):
         """Get new section."""
