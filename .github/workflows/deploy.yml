@@ -53,11 +53,8 @@ jobs:
       uses: ammaraskar/sphinx-action@master
       with:
         docs-folder: "docs/"
-    - name: Create artifact
-      uses: actions/upload-artifact@v1
-      with:
-        name: DocumentationHTML
-        path: docs/build/html/
+    - name: Add nojekyll
+      run: touch docs/build/html/.nojekyll
     - name: Deploy docs 🚀
       uses: JamesIves/github-pages-deploy-action@3.5.9
       with:
