@@ -16,6 +16,7 @@ disable =
     fixme,
     lost-exception,
     using-constant-test,
+	unspecified-encoding
 
 [MISCELLANEOUS]
 # List of note tags to take in consideration, separated by a comma.

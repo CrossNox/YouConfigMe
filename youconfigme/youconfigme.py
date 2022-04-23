@@ -225,15 +225,16 @@ class AutoConfig(Config):  # pylint: disable=too-few-public-methods
     empty Config file that can be used with defaults and/or env vars.
     """
 
-    def __init__(self, max_up_levels=1):
+    def __init__(self, max_up_levels=1, filename=INI_FILE):
         """Create a new AutoConfig item.
 
         Args:
             max_up_levels (int): how many parents should it traverse searching
                 for an `ini` file
+            filename (str): filename to search for
         """
         frame = sys._getframe()
-        settings_file = Path(frame.f_back.f_code.co_filename).parent / INI_FILE
+        settings_file = Path(frame.f_back.f_code.co_filename).parent / filename
         for _ in range(max_up_levels + 1):
             try:
                 logger.info("searching for config on %s", str(settings_file))
@@ -241,7 +242,7 @@ class AutoConfig(Config):  # pylint: disable=too-few-public-methods
                 return
             except FileNotFoundError:
                 try:
-                    settings_file = settings_file.parents[1] / INI_FILE
+                    settings_file = settings_file.parents[1] / filename
                 except IndexError:
                     break
         logger.info("autoconfig - empty config")
