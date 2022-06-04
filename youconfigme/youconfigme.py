@@ -11,6 +11,8 @@ import sys
 from configparser import ConfigParser
 from pathlib import Path
 
+from youconfigme.getpass import get_pass
+
 
 def config_logger(name):
     """Set a new logger.
@@ -81,7 +83,7 @@ class ConfigAttribute:
         if self.env is not None:
             self.env = str(self.env)
 
-    def __call__(self, default=None, cast=None):
+    def __call__(self, default=None, cast=None, from_pass=False):
         """Call the item.
 
         Follows the order of lookup.
@@ -103,6 +105,10 @@ class ConfigAttribute:
             retval = default
         else:
             raise ConfigItemNotFound
+
+        if from_pass:
+            retval = get_pass(retval)
+
         return (cast or str)(retval)
 
     def __getattr__(self, name):
