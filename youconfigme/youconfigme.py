@@ -41,6 +41,7 @@ logger = config_logger(__name__)
 
 DEFAULT_SECTION = "settings"
 INI_FILE = "settings.ini"
+DEFAULT_SEP = "_"
 # ENV_FILE = 'settings.env'
 
 
@@ -57,21 +58,23 @@ class ConfigAttribute:
     3) default value
     """
 
-    def __init__(self, name, value, section_name):
+    def __init__(self, name, value, section_name, sep=DEFAULT_SEP):
         """Create a new attribute.
 
         Args:
             name (str): name of the attribute
             value (object): stringify-able object to be used as value
             section_name (str): section where the value should be placed
+            sep (str): string to separate sections from items in env vars.
         """
         self.name = name
         self.value = value
         self.section_name = section_name
         if self.section_name is not None:
-            self.env_str = f"{section_name.upper()}_{name.upper()}"
+            self.env_str = f"{section_name.upper()}{sep}{name.upper()}"
         else:
             self.env_str = f"{name.upper()}"
+        logger.error("Try to get env_str: %s", self.env_str)
         self.env = os.getenv(self.env_str)
         if self.value is not None:
             self.value = str(self.value)
@@ -110,23 +113,27 @@ class ConfigAttribute:
 class ConfigSection:
     """A section from a Config item."""
 
-    def __init__(self, name, items):
+    def __init__(self, name, items, sep=DEFAULT_SEP):
         """Create a new ConfigSection.
 
         Args:
             name (str): name of the section
             items (mapping): mapping of attributes names to values
+            sep (str): string to separate sections from items in env vars.
         """
         self.name = name
         self.items = items or {}
+        self.sep = sep
 
     def __getattr__(self, val):
         """Get a new attribute."""
-        return ConfigAttribute(val, self.items.get(val), self.name)
+        return ConfigAttribute(val, self.items.get(val), self.name, sep=self.sep)
 
     def __call__(self, default=None, cast=None):
         """Get attribute called as section."""
-        return ConfigAttribute(self.name, None, None)(default=default, cast=cast)
+        return ConfigAttribute(self.name, None, None, sep=self.sep)(
+            default=default, cast=cast
+        )
 
     def to_dict(self):
         """Return as dict.
@@ -147,7 +154,9 @@ class ConfigSection:
 class Config:
     """Base Config item."""
 
-    def __init__(self, from_items=INI_FILE, default_section=DEFAULT_SECTION):
+    def __init__(
+        self, from_items=INI_FILE, default_section=DEFAULT_SECTION, sep=DEFAULT_SEP
+    ):
         """Create a new Config item.
 
         Args:
@@ -157,7 +166,9 @@ class Config:
                 - mapping: mapping of sections -> mapping of name -> value
                 - str: string representation of an `ini` file
             default_section (str): config items that need not be under a section
+            sep (str): string to separate sections from items in env vars.
         """
+        self.sep = sep
         self.default_section = default_section
         self.fake_default_section = "None" if default_section != "None" else "enoN"
         self.config_sections = []
@@ -174,11 +185,13 @@ class Config:
             if section == self.fake_default_section:
                 continue
             if section != self.default_section:
-                setattr(self, section, ConfigSection(section, mapping[section]))
+                setattr(
+                    self, section, ConfigSection(section, mapping[section], self.sep)
+                )
                 self.config_sections.append(section)
             else:
                 for k, v in mapping[section].items():
-                    setattr(self, k, ConfigAttribute(k, v, section))
+                    setattr(self, k, ConfigAttribute(k, v, None, sep=self.sep))
                     self.config_attributes.append(k)
 
     def _init_from_str(self, str_like):
@@ -198,7 +211,7 @@ class Config:
 
     def __getattr__(self, name):
         """Get new section."""
-        return ConfigSection(name, None)
+        return ConfigSection(name, None, self.sep)
 
     def to_dict(self):
         """Return as dict.
@@ -225,7 +238,7 @@ class AutoConfig(Config):  # pylint: disable=too-few-public-methods
     empty Config file that can be used with defaults and/or env vars.
     """
 
-    def __init__(self, max_up_levels=1, filename=INI_FILE):
+    def __init__(self, max_up_levels=1, filename=INI_FILE, sep=DEFAULT_SEP):
         """Create a new AutoConfig item.
 
         Args:
@@ -238,7 +251,7 @@ class AutoConfig(Config):  # pylint: disable=too-few-public-methods
         for _ in range(max_up_levels + 1):
             try:
                 logger.info("searching for config on %s", str(settings_file))
-                super().__init__(from_items=str(settings_file))
+                super().__init__(from_items=str(settings_file), sep=sep)
                 return
             except FileNotFoundError:
                 try:
@@ -246,4 +259,4 @@ class AutoConfig(Config):  # pylint: disable=too-few-public-methods
                 except IndexError:
                     break
         logger.info("autoconfig - empty config")
-        super().__init__(from_items=None)
+        super().__init__(from_items=None, sep=sep)

@@ -54,12 +54,7 @@ This will install several code formatting tools and set them up to run before co
 You might find `nox` quite useful to run tests and ensure linting is as expected.
 
 ### Docs
-To update the docs to the latest changes
-
-```bash
-cd docs
-make html
-```
+The docs are updated on pushed tags using GitHub Actions.
 
 ### Version bumping
 This project uses [bump](https://pypi.org/project/bump/) to quickly bump versions.
