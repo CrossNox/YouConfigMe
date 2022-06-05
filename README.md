@@ -109,3 +109,5 @@ print(config.a.key3(default='key3value'))	# return 'key3value'
 print(config.a.key4())				# returns 'key4value'
 print(config.a.key7())				# returns 'key7value'
 ```
+
+Since version `0.9.0`, YCM supports `toml` files as well.
