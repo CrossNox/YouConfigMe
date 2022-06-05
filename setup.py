@@ -10,7 +10,7 @@ def get_version():
     with open(init_f) as f:
         for line in f:
             if "__version__" in line:
-                return line.split("=")[-1].strip()
+                return line.split("=")[-1].strip().strip('"')
 
 
 def read_readme():
