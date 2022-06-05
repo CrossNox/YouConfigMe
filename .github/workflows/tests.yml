@@ -11,6 +11,20 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.7
+    - name: Install pass
+      run: |
+        apt update
+        apt install -y pass
+        echo "Key-Type: 1" > gpg_gen_key
+        echo "Key-Length: 2048" >> gpg_gen_key
+        echo "Subkey-Type: 1" >> gpg_gen_key
+        echo "Subkey-Length: 2048" >> gpg_gen_key
+        echo "Name-Real: GHActions YCM Test" >> gpg_gen_key
+        echo "Name-Email: you@config.me" >> gpg_gen_key
+        echo "Expire-Date: 0" >> gpg_gen_key
+        echo "Passphrase: ycm" >> gpg_gen_key
+        gpg --batch --gen-key gpg_gen_key
+        pass init "$(gpg --list-secret-keys --keyid-format short | grep sec | cut -d' ' -f 4 | head -n1)"
     - name: Install dependencies
       run: pip install nox
     - name: Run tests session
