@@ -13,8 +13,8 @@ jobs:
         python-version: 3.7
     - name: Install pass
       run: |
-        apt update
-        apt install -y pass
+        sudo apt update
+        sudo apt install -y pass
         echo "Key-Type: 1" > gpg_gen_key
         echo "Key-Length: 2048" >> gpg_gen_key
         echo "Subkey-Type: 1" >> gpg_gen_key
