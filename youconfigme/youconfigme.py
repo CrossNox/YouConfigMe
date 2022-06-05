@@ -11,6 +11,8 @@ import sys
 from configparser import ConfigParser
 from pathlib import Path
 
+import toml as libtoml
+
 from youconfigme.getpass import get_pass
 
 
@@ -208,10 +210,13 @@ class Config:
             self._init_from_mapping(config_parser)
         except Exception as e:  # pylint: disable=broad-except
             cwd_file = Path.cwd() / str_like
-            if cwd_file.is_file():
+            if cwd_file.is_file() and cwd_file.suffix == ".ini":
                 config_parser = ConfigParser(default_section=self.fake_default_section)
                 config_parser.read(cwd_file)
                 self._init_from_mapping(config_parser)
+            elif cwd_file.is_file() and cwd_file.suffix == ".toml":
+                config = libtoml.load(cwd_file)
+                self._init_from_mapping(config)
             else:
                 raise FileNotFoundError from e
 

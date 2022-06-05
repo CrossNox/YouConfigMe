@@ -1,4 +1,4 @@
-"""Config tests from an ini file"""
+"""Config tests from an toml file"""
 # pylint: disable=redefined-outer-name
 # pylint: disable=missing-function-docstring
 
@@ -18,7 +18,7 @@ k2=2
 k3=3
 k4=4
 """
-    temp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".ini")
+    temp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".toml")
     with open(temp_file.name, "w") as f:
         f.write(config_string)
     return Config(from_items=temp_file.name)
