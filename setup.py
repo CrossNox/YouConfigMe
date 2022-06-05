@@ -4,7 +4,13 @@ from pathlib import Path
 
 from setuptools import setup
 
-from youconfigme import __version__
+
+def get_version():
+    init_f = Path(__file__).parent / "youconfigme" / "__init__.py"
+    with open(init_f) as f:
+        for line in f:
+            if "__version__" in line:
+                return line.split("=")[-1].strip()
 
 
 def read_readme():
@@ -15,7 +21,7 @@ def read_readme():
 
 setup(
     name="youconfigme",
-    version=__version__,
+    version=get_version(),
     description="YouConfigMe helps you manage config in a pythonic way",
     long_description=read_readme(),
     long_description_content_type="text/markdown",
