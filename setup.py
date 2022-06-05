@@ -21,7 +21,7 @@ setup(
     long_description_content_type="text/markdown",
     url="https://github.com/crossnox/YouConfigMe",
     author="CrossNox",
-    install_requires=[],
+    install_requires=["toml"],
     extras_require={
         "test": ["pytest"],
         "dev": [
