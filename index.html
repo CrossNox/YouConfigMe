@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>YouConfigMe &mdash; YouConfigMe 0.8.1 documentation</title><link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <title>YouConfigMe &mdash; YouConfigMe 0.9.1 documentation</title><link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
@@ -34,7 +35,7 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption"><span class="caption-text">Package</span></p>
+              <p><span class="caption-text">Package</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">youconfigme</a></li>
 </ul>
@@ -52,8 +53,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="#" class="icon icon-home"></a> &raquo;</li>
-      <li>YouConfigMe</li>
+      <li><a href="#" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">YouConfigMe</li>
       <li class="wy-breadcrumbs-aside">
               <a href="https://github.com/CrossNox/YouConfigMe/blob/master/docs/source/index.rst" class="fa fa-github"> Edit on GitHub</a>
       </li>
@@ -63,7 +64,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="youconfigme">
+  <section id="youconfigme">
 <h1>YouConfigMe<a class="headerlink" href="#youconfigme" title="Permalink to this headline">¶</a></h1>
 <a class="reference external image-reference" href="https://img.shields.io/pypi/dm/youconfigme?style=flat-square"><img alt="PyPI - Downloads" src="https://img.shields.io/pypi/dm/youconfigme?style=flat-square" /></a>
 <a class="reference external image-reference" href="https://img.shields.io/pypi/v/youconfigme?style=flat-square"><img alt="PyPI" src="https://img.shields.io/pypi/v/youconfigme?style=flat-square" /></a>
@@ -71,30 +72,30 @@
 <a class="reference external image-reference" href="https://img.shields.io/github/workflow/status/CrossNox/YouConfigMe/Run%20linters%20and%20formatters?label=linting&amp;style=flat-square"><img alt="GitHub Workflow Status" src="https://img.shields.io/github/workflow/status/CrossNox/YouConfigMe/Run%20linters%20and%20formatters?label=linting&amp;style=flat-square" /></a>
 <a class="reference external image-reference" href="https://github.com/psf/black&amp;style=flat-square"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg" /></a>
 <p>YouConfigMe helps you manage config in a pythonic way.</p>
-<div class="section" id="core-ideas">
+<section id="core-ideas">
 <h2>Core ideas<a class="headerlink" href="#core-ideas" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="explicit-is-better-than-implicit">
+<section id="explicit-is-better-than-implicit">
 <h3>Explicit is better than implicit<a class="headerlink" href="#explicit-is-better-than-implicit" title="Permalink to this headline">¶</a></h3>
 <p>There are several ways to define configuration variables, with different levels of explicitness. I prefer to go as close as possible to the <a class="reference external" href="https://12factor.net/config">Twelve Factor App</a> guide since it’s what most people expect anyways.</p>
-</div>
-<div class="section" id="defaults-are-reasonable">
+</section>
+<section id="defaults-are-reasonable">
 <h3>Defaults are reasonable<a class="headerlink" href="#defaults-are-reasonable" title="Permalink to this headline">¶</a></h3>
 <p>Sometimes you might need a variable to exist even if it hasn’t been defined. So, you should be able to provide defaults.</p>
-</div>
-<div class="section" id="types-are-inherent-to-the-variable">
+</section>
+<section id="types-are-inherent-to-the-variable">
 <h3>Types are inherent to the variable<a class="headerlink" href="#types-are-inherent-to-the-variable" title="Permalink to this headline">¶</a></h3>
 <p>Most of the time, variables are defined as strings, on <code class="docutils literal notranslate"><span class="pre">.ini</span></code> files or as env vars. But what if your variable is an <code class="docutils literal notranslate"><span class="pre">int</span></code>? You should be able to get it as an <code class="docutils literal notranslate"><span class="pre">int</span></code>.</p>
-</div>
-<div class="section" id="sections-are-good">
+</section>
+<section id="sections-are-good">
 <h3>Sections are good<a class="headerlink" href="#sections-are-good" title="Permalink to this headline">¶</a></h3>
 <p>Config sections are a good thing: separate your config vars under reasonable namespaces.</p>
-</div>
-</div>
-<div class="section" id="motivation">
+</section>
+</section>
+<section id="motivation">
 <h2>Motivation<a class="headerlink" href="#motivation" title="Permalink to this headline">¶</a></h2>
 <p>The main motivation for youconfigme to exist is that most simple config libraries do not take sections into account. And it bugs me greatly.</p>
-</div>
-<div class="section" id="install">
+</section>
+<section id="install">
 <h2>Install<a class="headerlink" href="#install" title="Permalink to this headline">¶</a></h2>
 <p>Clone this repo, and install it.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install .
@@ -104,8 +105,8 @@
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install YouConfigMe
 </pre></div>
 </div>
-</div>
-<div class="section" id="development">
+</section>
+<section id="development">
 <h2>Development<a class="headerlink" href="#development" title="Permalink to this headline">¶</a></h2>
 <p>Start by cloning the repo/forking it.</p>
 <p>You should install YouConfigMe’s dev packages to help.</p>
@@ -119,11 +120,11 @@ pip install .<span class="o">[</span>test<span class="o">]</span>
 </div>
 <p>This will install several code formatting tools and set them up to run before commits. Also, it will run tests before pushing.</p>
 <p>You might find <code class="docutils literal notranslate"><span class="pre">nox</span></code> quite useful to run tests and ensure linting is as expected.</p>
-<div class="section" id="docs">
+<section id="docs">
 <h3>Docs<a class="headerlink" href="#docs" title="Permalink to this headline">¶</a></h3>
 <p>The docs are updated on pushed tags using GitHub Actions.</p>
-</div>
-<div class="section" id="version-bumping">
+</section>
+<section id="version-bumping">
 <h3>Version bumping<a class="headerlink" href="#version-bumping" title="Permalink to this headline">¶</a></h3>
 <p>This project uses <a class="reference external" href="https://pypi.org/project/bump/">bump</a> to quickly bump versions.
 By default running <code class="docutils literal notranslate"><span class="pre">bump</span></code> will bump the patch version. You can bump minor/major versions like so:</p>
@@ -131,13 +132,13 @@ By default running <code class="docutils literal notranslate"><span class="pre">
 bump --major
 </pre></div>
 </div>
-</div>
-</div>
-<div class="section" id="tests">
+</section>
+</section>
+<section id="tests">
 <h2>Tests<a class="headerlink" href="#tests" title="Permalink to this headline">¶</a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">tests</span></code> folder contains several tests that run using <code class="docutils literal notranslate"><span class="pre">pytest</span></code> that should give you an idea of how to use this.</p>
-</div>
-<div class="section" id="config-discovery">
+</section>
+<section id="config-discovery">
 <h2>Config discovery<a class="headerlink" href="#config-discovery" title="Permalink to this headline">¶</a></h2>
 <p>The preferred order should be:</p>
 <ol class="arabic simple">
@@ -145,8 +146,8 @@ bump --major
 <li><p>Config file</p></li>
 <li><p>Default value</p></li>
 </ol>
-</div>
-<div class="section" id="quickstart">
+</section>
+<section id="quickstart">
 <h2>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline">¶</a></h2>
 <p>Assume you have an <code class="docutils literal notranslate"><span class="pre">.ini</span></code> file at the root of your project that looks like this:</p>
 <div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[a]</span>
@@ -179,7 +180,7 @@ bump --major
 </div>
 <p>Since version <code class="docutils literal notranslate"><span class="pre">0.9.0</span></code>, YCM supports <code class="docutils literal notranslate"><span class="pre">toml</span></code> files as well.</p>
 <div class="toctree-wrapper compound">
-<p class="caption"><span class="caption-text">Package</span></p>
+<p><span class="caption-text">Package</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">youconfigme</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="youconfigme.html">youconfigme package</a></li>
@@ -187,8 +188,8 @@ bump --major
 </li>
 </ul>
 </div>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
