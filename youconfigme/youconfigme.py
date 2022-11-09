@@ -33,7 +33,7 @@ def config_logger(name):
     )
 
     console_handler = logging.StreamHandler()
-    console_handler.setLevel(logging.DEBUG)
+    console_handler.setLevel(logging.INFO)
     console_handler.setFormatter(formatter)
     new_logger.addHandler(console_handler)
 
@@ -78,7 +78,7 @@ class ConfigAttribute:
             self.env_str = f"{section_name.upper()}{sep}{name.upper()}"
         else:
             self.env_str = f"{name.upper()}"
-        logger.error("Try to get env_str: %s", self.env_str)
+        logger.debug("Try to get env_str: %s", self.env_str)
         self.env = os.getenv(self.env_str)
         if self.value is not None:
             self.value = str(self.value)
