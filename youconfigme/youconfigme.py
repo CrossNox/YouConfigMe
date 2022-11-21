@@ -106,7 +106,11 @@ class ConfigAttribute:
         elif default is not None:
             retval = default
         else:
-            raise ConfigItemNotFound
+            err_str = f"Configuration item {self.name}"
+            if self.section_name is not None:
+                err_str = f"{err_str} on section {self.section_name}"
+            err_str = f"{err_str} was not found"
+            raise ConfigItemNotFound(err_str)
 
         if from_pass:
             retval = get_pass(retval)
@@ -154,7 +158,7 @@ class ConfigSection:
             neglecting environment variables not present there.
         """
         if self.items == {}:
-            raise ConfigItemNotFound
+            raise ConfigItemNotFound(f"Section {self.name} is empty")
         ret_dict = {k: self.__getattr__(k)() for k in self.items.keys()}
         return ret_dict
 
