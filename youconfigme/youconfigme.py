@@ -36,7 +36,7 @@ def config_logger(name):
         "info": logging.INFO,
         "error": logging.ERROR,
         "debug": logging.DEBUG,
-    }
+    }[loglevel]
 
     new_logger = logging.getLogger(name)
     new_logger.setLevel(logging_level)
