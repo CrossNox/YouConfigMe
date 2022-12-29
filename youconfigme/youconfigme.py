@@ -26,7 +26,7 @@ def config_logger(name):
         logging.RootLogger: the configured logger
     """
     loglevel = (
-        os.environ.get("YOUCONFIGME_LOGLEVEL", os.environ.get("YCM_LOGLEVEL", "info"))
+        os.environ.get("YOUCONFIGME_LOGLEVEL", os.environ.get("YCM_LOGLEVEL", "error"))
     ).lower()
 
     if loglevel not in ("info", "error", "debug"):
