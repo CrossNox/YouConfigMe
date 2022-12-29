@@ -25,15 +25,28 @@ def config_logger(name):
     Returns:
         logging.RootLogger: the configured logger
     """
+    loglevel = (
+        os.environ.get("YOUCONFIGME_LOGLEVEL", os.environ.get("YCM_LOGLEVEL", "info"))
+    ).lower()
+
+    if loglevel not in ("info", "error", "debug"):
+        raise ValueError(f"YouConfigMe - log level {loglevel} is not valid")
+
+    logging_level = {
+        "info": logging.INFO,
+        "error": logging.ERROR,
+        "debug": logging.DEBUG,
+    }
+
     new_logger = logging.getLogger(name)
-    new_logger.setLevel(logging.DEBUG)
+    new_logger.setLevel(logging_level)
 
     formatter = logging.Formatter(
         "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
     )
 
     console_handler = logging.StreamHandler()
-    console_handler.setLevel(logging.INFO)
+    console_handler.setLevel(logging_level)
     console_handler.setFormatter(formatter)
     new_logger.addHandler(console_handler)
 
