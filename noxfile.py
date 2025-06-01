@@ -1,4 +1,5 @@
 """Entrypoint for nox."""
+
 import nox
 
 

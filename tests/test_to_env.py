@@ -1,4 +1,5 @@
 """Config tests to .env"""
+
 # pylint: disable=redefined-outer-name
 # pylint: disable=missing-function-docstring
 

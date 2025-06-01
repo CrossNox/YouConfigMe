@@ -1,4 +1,5 @@
 """Config tests from an ini file"""
+
 # pylint: disable=redefined-outer-name
 # pylint: disable=missing-function-docstring
 

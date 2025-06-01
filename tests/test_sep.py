@@ -1,4 +1,5 @@
 """Test sep arg."""
+
 # pylint: disable=redefined-outer-name
 # pylint: disable=missing-function-docstring
 

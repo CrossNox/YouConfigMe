@@ -1,4 +1,5 @@
 """Config tests from a mapping"""
+
 # pylint: disable=redefined-outer-name
 # pylint: disable=missing-function-docstring
 
