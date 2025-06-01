@@ -149,6 +149,7 @@ class ConfigSection:
         self.name = name
         self.items = items or {}
         self.sep = sep
+        self.prefix = f"{self.name}{self.sep}".upper()
 
     def __getattr__(self, val):
         """Get a new attribute."""
@@ -170,9 +171,16 @@ class ConfigSection:
             dict: all the key:value pairs from the initial mapping,
             neglecting environment variables not present there.
         """
-        if self.items == {}:
+        items = self.items
+        env_items = {
+            envvar[len(self.prefix) :].lower(): envval  # noqa: E203
+            for envvar, envval in os.environ.items()
+            if envvar.startswith(self.prefix)
+        }
+        items.update(env_items)
+        if items == {}:
             raise ConfigItemNotFound(f"Section {self.name} is empty")
-        ret_dict = {k: self.__getattr__(k)() for k in self.items.keys()}
+        ret_dict = {k: self.__getattr__(k)() for k in items.keys()}
         return ret_dict
 
 
@@ -257,6 +265,17 @@ class Config:
         for attribute in self.config_attributes:
             ret_dict[attribute] = self.__getattribute__(attribute)()
         return ret_dict
+
+    def to_dotenv(self) -> str:
+        """Return as .env file"""
+        lines = []
+        for k, v in self.to_dict().items():
+            try:
+                for k1, v1 in v.items():
+                    lines.append(f"{k}{self.sep}{k1}={v1}".upper())
+            except AttributeError:
+                lines.append(f"{k}={v}".upper())
+        return "\n".join(sorted(lines))
 
 
 class AutoConfig(Config):  # pylint: disable=too-few-public-methods

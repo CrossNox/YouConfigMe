@@ -21,7 +21,7 @@ def config_dict_defs_osenv():
 
 
 def test_config_from_mapping_env_defs_sa_to_dict(config_dict_defs_osenv):
-    assert config_dict_defs_osenv.a.to_dict() == {"k1": "1", "k2": "2"}
+    assert config_dict_defs_osenv.a.to_dict() == {"k1": "1", "k2": "2", "k7": "7"}
 
 
 def test_config_from_mapping_env_defs_sb_to_dict(config_dict_defs_osenv):
@@ -31,7 +31,7 @@ def test_config_from_mapping_env_defs_sb_to_dict(config_dict_defs_osenv):
 
 def test_config_from_mapping_env_defs_to_dict(config_dict_defs_osenv):
     assert config_dict_defs_osenv.to_dict() == {
-        "a": {"k1": "1", "k2": "2"},
+        "a": {"k1": "1", "k2": "2", "k7": "7"},
         "k3": "3",
         "k4": "4",
     }
