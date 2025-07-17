@@ -10,8 +10,17 @@ import os
 import sys
 from configparser import ConfigParser
 from pathlib import Path
-from typing import (Any, Callable, Dict, List, Mapping, Optional, TypeVar,
-                    Union, overload)
+from typing import (
+    Any,
+    Callable,
+    Dict,
+    List,
+    Mapping,
+    Optional,
+    TypeVar,
+    Union,
+    overload,
+)
 
 import toml as libtoml
 
