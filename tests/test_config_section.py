@@ -55,7 +55,7 @@ def test_val_nex(config_section):
 
 
 def test_val_nex_def(config_section):
-    assert config_section.w(7) == "7"
+    assert config_section.w(7) == 7
 
 
 def test_val_nex_def_cast(config_section):

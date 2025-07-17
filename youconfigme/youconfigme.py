@@ -11,6 +11,7 @@ import sys
 from configparser import ConfigParser
 from pathlib import Path
 from typing import (
+    TYPE_CHECKING,
     Any,
     Callable,
     Dict,
@@ -25,6 +26,16 @@ from typing import (
 import toml as libtoml
 
 from youconfigme.getpass import get_pass
+
+if TYPE_CHECKING:
+    from enum import Enum
+
+    class ellipsis(Enum):
+        Ellipsis = "..."
+
+    Ellipsis = ellipsis.Ellipsis  # pylint: disable=redefined-builtin
+else:
+    ellipsis = type(Ellipsis)
 
 
 def config_logger(name: str) -> logging.Logger:
@@ -119,7 +130,7 @@ class ConfigAttribute:
 
     @overload
     def __call__(
-        self, default: None = None, cast: None = None, from_pass: bool = False
+        self, default: ellipsis = Ellipsis, cast: None = None, from_pass: bool = False
     ) -> str: ...
 
     @overload
@@ -130,7 +141,7 @@ class ConfigAttribute:
     @overload
     def __call__(
         self,
-        default: None = None,
+        default: ellipsis = Ellipsis,
         cast: Callable[[str], T] = ...,
         from_pass: bool = False,
     ) -> T: ...
@@ -142,7 +153,7 @@ class ConfigAttribute:
 
     def __call__(
         self,
-        default: Optional[Any] = None,
+        default: Any = Ellipsis,
         cast: Optional[Callable[[str], Any]] = None,
         from_pass: bool = False,
     ) -> Any:
@@ -159,12 +170,13 @@ class ConfigAttribute:
             Any: A str or casted item
         """
         retval: Any
+
         if self.__env is not None:
             retval = self.__env
         elif self.__value is not None:
             retval = self.__value
-        elif default is not None:
-            retval = str(default)
+        elif default != Ellipsis:
+            retval = default
         else:
             err_str = f"Configuration item {self.__name}"
             if self.__section_name is not None:
@@ -175,7 +187,9 @@ class ConfigAttribute:
         if from_pass:
             retval = get_pass(retval)
 
-        return (cast or str)(retval)
+        if cast is not None:
+            return cast(retval)
+        return retval
 
     def __getattr__(self, name: str) -> None:
         """Get attr that does not exist."""
@@ -205,7 +219,7 @@ class ConfigSection:
         return ConfigAttribute(val, self.__items.get(val), self.__name, sep=self.__sep)
 
     def __call__(
-        self, default: Optional[Any] = None, cast: Optional[Callable[[str], Any]] = None
+        self, default: Any = Ellipsis, cast: Optional[Callable[[str], Any]] = None
     ) -> Any:
         """Get attribute called as section."""
         return ConfigAttribute(self.__name, None, None, sep=self.__sep)(

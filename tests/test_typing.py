@@ -72,6 +72,14 @@ def test_cast_return_type_mismatch() -> None:
 
 
 @pytest.mark.mypy_testing
+def test_cast_return_type_mismatch_simple() -> None:
+    """Test mismatch between cast return type and variable type."""
+    config = Config(from_items={"test": {"number": "1"}})
+
+    number: str = config.test.number(cast=int)  # E: Incompatible types in assignment (expression has type "int", variable has type "str")  [assignment]
+
+
+@pytest.mark.mypy_testing
 def test_bad_default_type_without_cast() -> None:
     """Test that default without cast doesn't convert types."""
     config = Config(from_items={})
