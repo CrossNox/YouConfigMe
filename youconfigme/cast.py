@@ -1,6 +1,16 @@
 """Common casts"""
 
-from typing import Union
+import builtins
+from typing import Optional, Union
+
+
+def ellipsis_none(config_value: Union[str, "builtins.ellipsis"]) -> Optional[str]:
+    """Return None for ellipsis defaults."""
+    if config_value is ...:
+        return None
+    if config_value == "":
+        return None
+    return config_value
 
 
 def to_bool(config_value: Union[str, bool]) -> bool:

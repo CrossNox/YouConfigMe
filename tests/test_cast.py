@@ -5,8 +5,8 @@
 # pylint: disable=unused-variable
 
 import pytest
-from pytest.cast import to_bool
 from youconfigme import Config
+from youconfigme.cast import to_bool
 
 
 @pytest.fixture
