@@ -5,15 +5,16 @@ from pathlib import Path
 from setuptools import setup
 
 
-def get_version():
+def get_version() -> str:
     init_f = Path(__file__).parent / "youconfigme" / "__init__.py"
     with open(init_f) as f:
         for line in f:
             if "__version__" in line:
                 return line.split("=")[-1].strip().strip('"')
+    raise ValueError("Version not found")
 
 
-def read_readme():
+def read_readme() -> str:
     readme_f = Path(__file__).parent / "README.md"
     with open(readme_f) as f:
         return f.read()
@@ -29,7 +30,7 @@ setup(
     author="CrossNox",
     install_requires=["toml"],
     extras_require={
-        "test": ["pytest"],
+        "test": ["pytest", "pytest-mypy-testing", "pytest-cov"],
         "dev": [
             "pre-commit",
             "mypy",
@@ -40,8 +41,12 @@ setup(
             "bump",
             "nox",
             "types-toml",
+            "types-setuptools",
         ],
     },
     packages=["youconfigme"],
+    package_data={
+        "youconfigme": ["py.typed", "*.pyi"],
+    },
     classifiers=["Programming Language :: Python :: 3"],
 )

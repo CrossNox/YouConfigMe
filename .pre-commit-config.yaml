@@ -18,7 +18,6 @@ repos:
       entry: flake8
       language: system
       types: [python]
-      args: [--max-line-length=88]
       exclude: docs
     - id: isort
       name: isort
@@ -32,7 +31,7 @@ repos:
       entry: mypy
       language: system
       types: [python]
-      exclude: docs
+      exclude: docs/.*|tests/.*
     - id: pylint
       name: pylint
       entry: pylint

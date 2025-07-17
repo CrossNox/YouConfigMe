@@ -1,0 +1,5 @@
+[flake8]
+max-line-length = 120
+per-file-ignores =
+	tests/test_typing.py:E501,F841
+	tests/test_cast.py:E501,F841

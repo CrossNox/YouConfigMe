@@ -24,29 +24,29 @@ def config_underscore():
     del os.environ["K4"]
 
 
-@patch("youconfigme.getpass.subprocess.run")
+@patch("youconfigme.use_gnupass.subprocess.run")
 def test_k1(mock_run, config_underscore):
-    mock_run.return_value.stdout.decode.return_value.strip.return_value = PASS
+    mock_run.return_value.stdout = PASS + "\n"
     cfg = config_underscore
     assert cfg.a.k1(from_pass=True) == PASS
 
 
-@patch("youconfigme.getpass.subprocess.run")
+@patch("youconfigme.use_gnupass.subprocess.run")
 def test_k2(mock_run, config_underscore):
-    mock_run.return_value.stdout.decode.return_value.strip.return_value = PASS
+    mock_run.return_value.stdout = PASS + "\n"
     cfg = config_underscore
     assert cfg.a.k2(from_pass=True) == PASS
 
 
-@patch("youconfigme.getpass.subprocess.run")
+@patch("youconfigme.use_gnupass.subprocess.run")
 def test_k3(mock_run, config_underscore):
-    mock_run.return_value.stdout.decode.return_value.strip.return_value = PASS
+    mock_run.return_value.stdout = PASS + "\n"
     cfg = config_underscore
     assert cfg.k3(from_pass=True) == PASS
 
 
-@patch("youconfigme.getpass.subprocess.run")
+@patch("youconfigme.use_gnupass.subprocess.run")
 def test_k4(mock_run, config_underscore):
-    mock_run.return_value.stdout.decode.return_value.strip.return_value = PASS
+    mock_run.return_value.stdout = PASS + "\n"
     cfg = config_underscore
     assert cfg.k4(from_pass=True) == PASS
