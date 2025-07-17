@@ -4,7 +4,7 @@ import nox
 
 
 @nox.session(reuse_venv=True, python="3.8")
-def cop(session):  # type: ignore
+def cop(session) -> None:  # type: ignore
     """Run all pre-commit hooks."""
     session.install(".")
     session.install(".[dev,test]")
