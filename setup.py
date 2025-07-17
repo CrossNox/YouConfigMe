@@ -30,7 +30,7 @@ setup(
     author="CrossNox",
     install_requires=["toml"],
     extras_require={
-        "test": ["pytest", "pytest-mypy-testing"],
+        "test": ["pytest", "pytest-mypy-testing", "pytest-cov"],
         "dev": [
             "pre-commit",
             "mypy",
