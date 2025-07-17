@@ -353,14 +353,14 @@ class Config:
         """
         return ConfigSection(name, None, self.__sep)
 
-    def to_dict(self) -> Dict[str, Dict[str, str]]:
+    def to_dict(self) -> Dict[str, Union[Dict[str, str], str]]:
         """Return configuration as dictionary.
 
         Returns:
             Dictionary of all sections and their key:value pairs,
             including standalone attributes not in sections
         """
-        ret_dict: Dict[str, Any] = {}
+        ret_dict: Dict[str, Union[Dict[str, str], str]] = {}
         for section in self.__config_sections:
             ret_dict[section] = self.__getattribute__(section).to_dict()
         for attribute in self.__config_attributes:
@@ -374,12 +374,14 @@ class Config:
             String representation in .env format with uppercase keys
         """
         lines: List[str] = []
+        v: Union[str, Dict[str, str]]
         for k, v in self.to_dict().items():
-            try:
+            # I'd rather use try/except, but _mypy_
+            if isinstance(v, str):
+                lines.append(f"{k}={v}".upper())
+            else:
                 for k1, v1 in v.items():
                     lines.append(f"{k}{self.__sep}{k1}={v1}".upper())
-            except AttributeError:
-                lines.append(f"{k}={v}".upper())
         return "\n".join(sorted(lines))
 
 

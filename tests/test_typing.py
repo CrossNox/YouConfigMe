@@ -4,7 +4,7 @@
 # pylint: disable=missing-function-docstring
 # pylint: disable=unused-variable
 
-from typing import Dict, List
+from typing import Dict, List, Union
 
 import pytest
 from youconfigme import Config, ConfigSection
@@ -137,5 +137,5 @@ def test_config_to_dict_return_type() -> None:
         "db": {"name": "mydb"}
     })
 
-    # to_dict returns Dict[str, Dict[str, str]]
-    config_dict: Dict[str, Dict[str, str]] = config.to_dict()
+    # to_dict returns Dict[str, Union[Dict[str, str], str]]
+    config_dict: Dict[str, Union[Dict[str, str], str]] = config.to_dict()
