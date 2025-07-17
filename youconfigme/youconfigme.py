@@ -10,8 +10,17 @@ import os
 import sys
 from configparser import ConfigParser
 from pathlib import Path
-from typing import (Any, Callable, Dict, List, Mapping, Optional, TypeVar,
-                    Union, overload)
+from typing import (
+    Any,
+    Callable,
+    Dict,
+    List,
+    Mapping,
+    Optional,
+    TypeVar,
+    Union,
+    overload,
+)
 
 import toml as libtoml
 
@@ -98,7 +107,7 @@ class ConfigAttribute:
         self.value = value
         self.section_name = section_name
         if self.section_name is not None:
-            self.env_str = f"{section_name.upper()}{sep}{name.upper()}"
+            self.env_str = f"{self.section_name.upper()}{sep}{name.upper()}"
         else:
             self.env_str = f"{name.upper()}"
         logger.debug("Try to get env_str: %s", self.env_str)
@@ -111,12 +120,12 @@ class ConfigAttribute:
     @overload
     def __call__(
         self, default: None = None, cast: None = None, from_pass: bool = False
-    ) -> str:
-        ...
+    ) -> str: ...
 
     @overload
-    def __call__(self, default: T, cast: None = None, from_pass: bool = False) -> str:
-        ...
+    def __call__(
+        self, default: T, cast: None = None, from_pass: bool = False
+    ) -> str: ...
 
     @overload
     def __call__(
@@ -124,14 +133,12 @@ class ConfigAttribute:
         default: None = None,
         cast: Callable[[str], T] = ...,
         from_pass: bool = False,
-    ) -> T:
-        ...
+    ) -> T: ...
 
     @overload
     def __call__(
         self, default: Any, cast: Callable[[str], T] = ..., from_pass: bool = False
-    ) -> T:
-        ...
+    ) -> T: ...
 
     def __call__(
         self,
@@ -151,7 +158,7 @@ class ConfigAttribute:
         Returns:
             Any: A str or casted item
         """
-        retval = None
+        retval: Any
         if self.env is not None:
             retval = self.env
         elif self.value is not None:
@@ -347,6 +354,8 @@ class AutoConfig(Config):  # pylint: disable=too-few-public-methods
             sep (str): string to separate sections from items in env vars.
         """
         frame = sys._getframe()
+        if frame.f_back is None:
+            raise ValueError("No caller frame")
         settings_file = Path(frame.f_back.f_code.co_filename).parent / filename
         for _ in range(max_up_levels + 1):
             try:
