@@ -10,20 +10,22 @@ import os
 import sys
 from configparser import ConfigParser
 from pathlib import Path
+from typing import (Any, Callable, Dict, List, Mapping, Optional, TypeVar,
+                    Union, overload)
 
 import toml as libtoml
 
 from youconfigme.getpass import get_pass
 
 
-def config_logger(name):
+def config_logger(name: str) -> logging.Logger:
     """Set a new logger.
 
     Args:
         name (str): name for the logger
 
     Returns:
-        logging.RootLogger: the configured logger
+        logging.Logger: the configured logger
     """
     loglevel = (
         os.environ.get("YOUCONFIGME_LOGLEVEL", os.environ.get("YCM_LOGLEVEL", "error"))
@@ -61,6 +63,8 @@ INI_FILE = "settings.ini"
 DEFAULT_SEP = "_"
 # ENV_FILE = 'settings.env'
 
+T = TypeVar("T")
+
 
 class ConfigItemNotFound(Exception):
     """The config item could not be found."""
@@ -75,7 +79,13 @@ class ConfigAttribute:
     3) default value
     """
 
-    def __init__(self, name, value, section_name, sep=DEFAULT_SEP):
+    def __init__(
+        self,
+        name: str,
+        value: Optional[Any],
+        section_name: Optional[str],
+        sep: str = DEFAULT_SEP,
+    ) -> None:
         """Create a new attribute.
 
         Args:
@@ -98,15 +108,45 @@ class ConfigAttribute:
         if self.env is not None:
             self.env = str(self.env)
 
-    def __call__(self, default=None, cast=None, from_pass=False):
+    @overload
+    def __call__(
+        self, default: None = None, cast: None = None, from_pass: bool = False
+    ) -> str:
+        ...
+
+    @overload
+    def __call__(self, default: T, cast: None = None, from_pass: bool = False) -> str:
+        ...
+
+    @overload
+    def __call__(
+        self,
+        default: None = None,
+        cast: Callable[[str], T] = ...,
+        from_pass: bool = False,
+    ) -> T:
+        ...
+
+    @overload
+    def __call__(
+        self, default: Any, cast: Callable[[str], T] = ..., from_pass: bool = False
+    ) -> T:
+        ...
+
+    def __call__(
+        self,
+        default: Optional[Any] = None,
+        cast: Optional[Callable[[str], Any]] = None,
+        from_pass: bool = False,
+    ) -> Any:
         """Call the item.
 
         Follows the order of lookup.
 
-
         Args:
             default (str): default value if item not found
             cast (callable): how to cast the item
+            from_pass (bool): whether to retrieve value from pass
 
         Returns:
             Any: A str or casted item
@@ -117,7 +157,7 @@ class ConfigAttribute:
         elif self.value is not None:
             retval = self.value
         elif default is not None:
-            retval = default
+            retval = str(default)
         else:
             err_str = f"Configuration item {self.name}"
             if self.section_name is not None:
@@ -130,7 +170,7 @@ class ConfigAttribute:
 
         return (cast or str)(retval)
 
-    def __getattr__(self, name):
+    def __getattr__(self, name: str) -> None:
         """Get attr that does not exist."""
         raise ConfigItemNotFound(f"section {name} not found")
 
@@ -138,7 +178,9 @@ class ConfigAttribute:
 class ConfigSection:
     """A section from a Config item."""
 
-    def __init__(self, name, items, sep=DEFAULT_SEP):
+    def __init__(
+        self, name: str, items: Optional[Mapping[str, Any]], sep: str = DEFAULT_SEP
+    ) -> None:
         """Create a new ConfigSection.
 
         Args:
@@ -151,17 +193,19 @@ class ConfigSection:
         self.sep = sep
         self.prefix = f"{self.name}{self.sep}".upper()
 
-    def __getattr__(self, val):
+    def __getattr__(self, val: str) -> ConfigAttribute:
         """Get a new attribute."""
         return ConfigAttribute(val, self.items.get(val), self.name, sep=self.sep)
 
-    def __call__(self, default=None, cast=None):
+    def __call__(
+        self, default: Optional[Any] = None, cast: Optional[Callable[[str], Any]] = None
+    ) -> Any:
         """Get attribute called as section."""
         return ConfigAttribute(self.name, None, None, sep=self.sep)(
             default=default, cast=cast
         )
 
-    def to_dict(self):
+    def to_dict(self) -> Dict[str, str]:
         """Return as dict.
 
         Args:
@@ -171,7 +215,7 @@ class ConfigSection:
             dict: all the key:value pairs from the initial mapping,
             neglecting environment variables not present there.
         """
-        items = self.items
+        items = dict(self.items)
         env_items = {
             envvar[len(self.prefix) :].lower(): envval  # noqa: E203
             for envvar, envval in os.environ.items()
@@ -184,12 +228,18 @@ class ConfigSection:
         return ret_dict
 
 
+FromItemsType = Union[str, Path, Mapping[str, Any], None]
+
+
 class Config:
     """Base Config item."""
 
     def __init__(
-        self, from_items=INI_FILE, default_section=DEFAULT_SECTION, sep=DEFAULT_SEP
-    ):
+        self,
+        from_items: FromItemsType = INI_FILE,
+        default_section: str = DEFAULT_SECTION,
+        sep: str = DEFAULT_SEP,
+    ) -> None:
         """Create a new Config item.
 
         Args:
@@ -201,19 +251,19 @@ class Config:
             default_section (str): config items that need not be under a section
             sep (str): string to separate sections from items in env vars.
         """
-        self.sep = sep
-        self.default_section = default_section
-        self.fake_default_section = "None" if default_section != "None" else "enoN"
-        self.config_sections = []
-        self.config_attributes = []
+        self.sep: str = sep
+        self.default_section: str = default_section
+        self.fake_default_section: str = "None" if default_section != "None" else "enoN"
+        self.config_sections: List[str] = []
+        self.config_attributes: List[str] = []
 
         if from_items is not None:
             try:
-                self._init_from_mapping(from_items)
+                self._init_from_mapping(from_items)  # type: ignore
             except AttributeError:
-                self._init_from_str(from_items)
+                self._init_from_str(from_items)  # type: ignore
 
-    def _init_from_mapping(self, mapping):
+    def _init_from_mapping(self, mapping: Mapping[str, Any]) -> None:
         for section in mapping.keys():
             if section == self.fake_default_section:
                 continue
@@ -227,14 +277,14 @@ class Config:
                     setattr(self, k, ConfigAttribute(k, v, None, sep=self.sep))
                     self.config_attributes.append(k)
 
-    def _init_from_str(self, str_like):
+    def _init_from_str(self, str_like: Union[str, Path]) -> None:
         try:
-            buf = io.StringIO(str_like)
+            buf = io.StringIO(str(str_like))
             config_parser = ConfigParser(default_section=self.fake_default_section)
             config_parser.read_file(buf)
             self._init_from_mapping(config_parser)
         except Exception as e:  # pylint: disable=broad-except
-            cwd_file = Path.cwd() / str_like
+            cwd_file = Path.cwd() / str(str_like)
             if cwd_file.is_file() and cwd_file.suffix == ".ini":
                 config_parser = ConfigParser(default_section=self.fake_default_section)
                 config_parser.read(cwd_file)
@@ -245,11 +295,11 @@ class Config:
             else:
                 raise FileNotFoundError from e
 
-    def __getattr__(self, name):
+    def __getattr__(self, name: str) -> ConfigSection:
         """Get new section."""
         return ConfigSection(name, None, self.sep)
 
-    def to_dict(self):
+    def to_dict(self) -> Dict[str, Any]:
         """Return as dict.
 
         Args:
@@ -259,7 +309,7 @@ class Config:
             dict: all the key:value pairs from the initial mapping,
             neglecting environment variables not present there.
         """
-        ret_dict = {}
+        ret_dict: Dict[str, Any] = {}
         for section in self.config_sections:
             ret_dict[section] = self.__getattribute__(section).to_dict()
         for attribute in self.config_attributes:
@@ -268,7 +318,7 @@ class Config:
 
     def to_dotenv(self) -> str:
         """Return as .env file"""
-        lines = []
+        lines: List[str] = []
         for k, v in self.to_dict().items():
             try:
                 for k1, v1 in v.items():
@@ -285,13 +335,16 @@ class AutoConfig(Config):  # pylint: disable=too-few-public-methods
     empty Config file that can be used with defaults and/or env vars.
     """
 
-    def __init__(self, max_up_levels=1, filename=INI_FILE, sep=DEFAULT_SEP):
+    def __init__(
+        self, max_up_levels: int = 1, filename: str = INI_FILE, sep: str = DEFAULT_SEP
+    ) -> None:
         """Create a new AutoConfig item.
 
         Args:
             max_up_levels (int): how many parents should it traverse searching
                 for an `ini` file
             filename (str): filename to search for
+            sep (str): string to separate sections from items in env vars.
         """
         frame = sys._getframe()
         settings_file = Path(frame.f_back.f_code.co_filename).parent / filename

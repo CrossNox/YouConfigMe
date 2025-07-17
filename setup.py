@@ -43,5 +43,8 @@ setup(
         ],
     },
     packages=["youconfigme"],
+    package_data={
+        "youconfigme": ["py.typed", "*.pyi"],
+    },
     classifiers=["Programming Language :: Python :: 3"],
 )
