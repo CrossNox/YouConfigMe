@@ -13,7 +13,14 @@ from youconfigme.cast import to_bool
 def config_dict():
     return Config(
         from_items={
-            "yes": {"k1": "yes", "k2": "true", "k4": "1", "k5": "True", "k6": True},
+            "yes": {
+                "k1": "yes",
+                "k2": "true",
+                "k3": "y",
+                "k4": "1",
+                "k5": "True",
+                "k6": True,
+            },
             "no": {
                 "k1": "no",
                 "k2": "false",
