@@ -18,7 +18,6 @@ repos:
       entry: flake8
       language: system
       types: [python]
-      args: [--max-line-length=88]
       exclude: docs
     - id: isort
       name: isort

@@ -6,7 +6,7 @@
 
 import pytest
 from youconfigme import Config
-from youconfigme.cast import to_bool
+from youconfigme.common_casts import to_bool
 
 # fmt: off
 

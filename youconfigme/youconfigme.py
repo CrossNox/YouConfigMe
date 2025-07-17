@@ -25,7 +25,7 @@ from typing import (
 
 import toml as libtoml
 
-from youconfigme.getpass import get_pass
+from youconfigme.use_gnupass import get_pass
 
 if TYPE_CHECKING:
     from enum import Enum
@@ -162,12 +162,12 @@ class ConfigAttribute:
         Follows the order of lookup.
 
         Args:
-            default (str): default value if item not found
-            cast (callable): how to cast the item
-            from_pass (bool): whether to retrieve value from pass
+            default: Default value if item not found
+            cast: Function to cast the item
+            from_pass: Whether to retrieve value from GNU pass
 
         Returns:
-            Any: A str or casted item
+            A string or casted item
         """
         retval: Any
 
@@ -192,7 +192,14 @@ class ConfigAttribute:
         return retval
 
     def __getattr__(self, name: str) -> None:
-        """Get attr that does not exist."""
+        """Get attribute that does not exist.
+
+        Args:
+            name: Name of the attribute that was requested
+
+        Raises:
+            ConfigItemNotFound: Always, since the attribute doesn't exist
+        """
         raise ConfigItemNotFound(f"section {name} not found")
 
 
@@ -205,9 +212,9 @@ class ConfigSection:
         """Create a new ConfigSection.
 
         Args:
-            name (str): name of the section
-            items (mapping): mapping of attributes names to values
-            sep (str): string to separate sections from items in env vars.
+            name: Name of the section
+            items: Mapping of attribute names to values
+            sep: String to separate sections from items in env vars
         """
         self.__name = name
         self.__items = items or {}
@@ -215,26 +222,41 @@ class ConfigSection:
         self.__prefix = f"{self.__name}{self.__sep}".upper()
 
     def __getattr__(self, val: str) -> ConfigAttribute:
-        """Get a new attribute."""
+        """Get a new configuration attribute.
+
+        Args:
+            val: Name of the attribute to retrieve
+
+        Returns:
+            A ConfigAttribute instance for the requested attribute
+        """
         return ConfigAttribute(val, self.__items.get(val), self.__name, sep=self.__sep)
 
     def __call__(
         self, default: Any = Ellipsis, cast: Optional[Callable[[str], Any]] = None
     ) -> Any:
-        """Get attribute called as section."""
+        """Get attribute called as section.
+
+        Args:
+            default: Default value if item not found
+            cast: Function to cast the item
+
+        Returns:
+            The configuration value, optionally cast
+        """
         return ConfigAttribute(self.__name, None, None, sep=self.__sep)(
             default=default, cast=cast
         )
 
     def to_dict(self) -> Dict[str, str]:
-        """Return as dict.
-
-        Args:
-            None
+        """Return section as dictionary.
 
         Returns:
-            dict: all the key:value pairs from the initial mapping,
-            neglecting environment variables not present there.
+            Dictionary of all key:value pairs from the initial mapping,
+            including environment variables that match the section prefix
+
+        Raises:
+            ConfigItemNotFound: If the section is empty
         """
         items = dict(self.__items)
         env_items = {
@@ -264,18 +286,18 @@ class Config:
         """Create a new Config item.
 
         Args:
-            from_items (mapping or str or filename): where the config should be
-                populated from:
-                - filename: path for an `ini` file
-                - mapping: mapping of sections -> mapping of name -> value
-                - str: string representation of an `ini` file
-            default_section (str): config items that need not be under a section
-            sep (str): string to separate sections from items in env vars.
+            from_items: Where the config should be populated from:
+                - filename: Path for an ini/toml file
+                - mapping: Mapping of sections to mappings of name to value
+                - str: String representation of an ini file
+                - None: Empty configuration
+            default_section: Config items that need not be under a section
+            sep: String to separate sections from items in env vars
         """
         self.__sep: str = sep
         self.__default_section: str = default_section
         self.__fake_default_section: str = (
-            "None" if default_section != "None" else "enoN"
+            f"__YOUCONFIGME_INTERNAL_SECTION_{id(self)}__"
         )
         self.__config_sections: List[str] = []
         self.__config_attributes: List[str] = []
@@ -321,18 +343,22 @@ class Config:
                 raise FileNotFoundError from e
 
     def __getattr__(self, name: str) -> ConfigSection:
-        """Get new section."""
+        """Get new configuration section.
+
+        Args:
+            name: Name of the section to retrieve
+
+        Returns:
+            A ConfigSection instance for the requested section
+        """
         return ConfigSection(name, None, self.__sep)
 
     def to_dict(self) -> Dict[str, Dict[str, str]]:
-        """Return as dict.
-
-        Args:
-            None
+        """Return configuration as dictionary.
 
         Returns:
-            dict: all the key:value pairs from the initial mapping,
-            neglecting environment variables not present there.
+            Dictionary of all sections and their key:value pairs,
+            including standalone attributes not in sections
         """
         ret_dict: Dict[str, Any] = {}
         for section in self.__config_sections:
@@ -342,7 +368,11 @@ class Config:
         return ret_dict
 
     def to_dotenv(self) -> str:
-        """Return as .env file"""
+        """Return configuration as .env file format.
+
+        Returns:
+            String representation in .env format with uppercase keys
+        """
         lines: List[str] = []
         for k, v in self.to_dict().items():
             try:
@@ -366,10 +396,13 @@ class AutoConfig(Config):  # pylint: disable=too-few-public-methods
         """Create a new AutoConfig item.
 
         Args:
-            max_up_levels (int): how many parents should it traverse searching
-                for an `ini` file
-            filename (str): filename to search for
-            sep (str): string to separate sections from items in env vars.
+            max_up_levels: How many parent directories to traverse searching
+                for a configuration file
+            filename: Filename to search for
+            sep: String to separate sections from items in env vars
+
+        Raises:
+            ValueError: If no caller frame is available
         """
         frame = sys._getframe()
         if frame.f_back is None:
