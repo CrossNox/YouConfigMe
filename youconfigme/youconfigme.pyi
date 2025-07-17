@@ -20,7 +20,7 @@ class ConfigAttribute:
     value: Optional[str]
     section_name: Optional[str]
     env_str: str
-    env: Optional[str]
+    __env: Optional[str]
 
     def __init__(
         self,

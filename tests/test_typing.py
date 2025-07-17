@@ -129,8 +129,5 @@ def test_config_to_dict_return_type() -> None:
         "db": {"name": "mydb"}
     })
 
-    # to_dict returns Dict[str, str]
-    config_dict: Dict[str, str] = config.to_dict()
-
-    # This is too wide
-    wide_dict: Dict[str, Any] = config.to_dict()  # E: Incompatible types in assignment (expression has type "Dict[str, Any]", variable has type "Dict[str, str]")  [assignment]
+    # to_dict returns Dict[str, Dict[str, str]]
+    config_dict: Dict[str, Dict[str, str]] = config.to_dict()

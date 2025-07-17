@@ -10,17 +10,8 @@ import os
 import sys
 from configparser import ConfigParser
 from pathlib import Path
-from typing import (
-    Any,
-    Callable,
-    Dict,
-    List,
-    Mapping,
-    Optional,
-    TypeVar,
-    Union,
-    overload,
-)
+from typing import (Any, Callable, Dict, List, Mapping, Optional, TypeVar,
+                    Union, overload)
 
 import toml as libtoml
 
@@ -103,19 +94,19 @@ class ConfigAttribute:
             section_name (str): section where the value should be placed
             sep (str): string to separate sections from items in env vars.
         """
-        self.name = name
-        self.value = value
-        self.section_name = section_name
-        if self.section_name is not None:
-            self.env_str = f"{self.section_name.upper()}{sep}{name.upper()}"
+        self.__name = name
+        self.__value = value
+        self.__section_name = section_name
+        if self.__section_name is not None:
+            self.__env_str = f"{self.__section_name.upper()}{sep}{name.upper()}"
         else:
-            self.env_str = f"{name.upper()}"
-        logger.debug("Try to get env_str: %s", self.env_str)
-        self.env = os.getenv(self.env_str)
-        if self.value is not None:
-            self.value = str(self.value)
-        if self.env is not None:
-            self.env = str(self.env)
+            self.__env_str = f"{name.upper()}"
+        logger.debug("Try to get env_str: %s", self.__env_str)
+        self.__env = os.getenv(self.__env_str)
+        if self.__value is not None:
+            self.__value = str(self.__value)
+        if self.__env is not None:
+            self.__env = str(self.__env)
 
     @overload
     def __call__(
@@ -125,7 +116,7 @@ class ConfigAttribute:
     @overload
     def __call__(
         self, default: T, cast: None = None, from_pass: bool = False
-    ) -> str: ...
+    ) -> Union[T, str]: ...
 
     @overload
     def __call__(
@@ -159,16 +150,16 @@ class ConfigAttribute:
             Any: A str or casted item
         """
         retval: Any
-        if self.env is not None:
-            retval = self.env
-        elif self.value is not None:
-            retval = self.value
+        if self.__env is not None:
+            retval = self.__env
+        elif self.__value is not None:
+            retval = self.__value
         elif default is not None:
             retval = str(default)
         else:
-            err_str = f"Configuration item {self.name}"
-            if self.section_name is not None:
-                err_str = f"{err_str} on section {self.section_name}"
+            err_str = f"Configuration item {self.__name}"
+            if self.__section_name is not None:
+                err_str = f"{err_str} on section {self.__section_name}"
             err_str = f"{err_str} was not found"
             raise ConfigItemNotFound(err_str)
 
@@ -195,20 +186,20 @@ class ConfigSection:
             items (mapping): mapping of attributes names to values
             sep (str): string to separate sections from items in env vars.
         """
-        self.name = name
-        self.items = items or {}
-        self.sep = sep
-        self.prefix = f"{self.name}{self.sep}".upper()
+        self.__name = name
+        self.__items = items or {}
+        self.__sep = sep
+        self.__prefix = f"{self.__name}{self.__sep}".upper()
 
     def __getattr__(self, val: str) -> ConfigAttribute:
         """Get a new attribute."""
-        return ConfigAttribute(val, self.items.get(val), self.name, sep=self.sep)
+        return ConfigAttribute(val, self.__items.get(val), self.__name, sep=self.__sep)
 
     def __call__(
         self, default: Optional[Any] = None, cast: Optional[Callable[[str], Any]] = None
     ) -> Any:
         """Get attribute called as section."""
-        return ConfigAttribute(self.name, None, None, sep=self.sep)(
+        return ConfigAttribute(self.__name, None, None, sep=self.__sep)(
             default=default, cast=cast
         )
 
@@ -222,15 +213,15 @@ class ConfigSection:
             dict: all the key:value pairs from the initial mapping,
             neglecting environment variables not present there.
         """
-        items = dict(self.items)
+        items = dict(self.__items)
         env_items = {
-            envvar[len(self.prefix) :].lower(): envval  # noqa: E203
+            envvar[len(self.__prefix) :].lower(): envval  # noqa: E203
             for envvar, envval in os.environ.items()
-            if envvar.startswith(self.prefix)
+            if envvar.startswith(self.__prefix)
         }
         items.update(env_items)
         if items == {}:
-            raise ConfigItemNotFound(f"Section {self.name} is empty")
+            raise ConfigItemNotFound(f"Section {self.__name} is empty")
         ret_dict = {k: self.__getattr__(k)() for k in items.keys()}
         return ret_dict
 
@@ -258,11 +249,13 @@ class Config:
             default_section (str): config items that need not be under a section
             sep (str): string to separate sections from items in env vars.
         """
-        self.sep: str = sep
-        self.default_section: str = default_section
-        self.fake_default_section: str = "None" if default_section != "None" else "enoN"
-        self.config_sections: List[str] = []
-        self.config_attributes: List[str] = []
+        self.__sep: str = sep
+        self.__default_section: str = default_section
+        self.__fake_default_section: str = (
+            "None" if default_section != "None" else "enoN"
+        )
+        self.__config_sections: List[str] = []
+        self.__config_attributes: List[str] = []
 
         if from_items is not None:
             try:
@@ -272,28 +265,30 @@ class Config:
 
     def _init_from_mapping(self, mapping: Mapping[str, Any]) -> None:
         for section in mapping.keys():
-            if section == self.fake_default_section:
+            if section == self.__fake_default_section:
                 continue
-            if section != self.default_section:
+            if section != self.__default_section:
                 setattr(
-                    self, section, ConfigSection(section, mapping[section], self.sep)
+                    self, section, ConfigSection(section, mapping[section], self.__sep)
                 )
-                self.config_sections.append(section)
+                self.__config_sections.append(section)
             else:
                 for k, v in mapping[section].items():
-                    setattr(self, k, ConfigAttribute(k, v, None, sep=self.sep))
-                    self.config_attributes.append(k)
+                    setattr(self, k, ConfigAttribute(k, v, None, sep=self.__sep))
+                    self.__config_attributes.append(k)
 
     def _init_from_str(self, str_like: Union[str, Path]) -> None:
         try:
             buf = io.StringIO(str(str_like))
-            config_parser = ConfigParser(default_section=self.fake_default_section)
+            config_parser = ConfigParser(default_section=self.__fake_default_section)
             config_parser.read_file(buf)
             self._init_from_mapping(config_parser)
         except Exception as e:  # pylint: disable=broad-except
             cwd_file = Path.cwd() / str(str_like)
             if cwd_file.is_file() and cwd_file.suffix == ".ini":
-                config_parser = ConfigParser(default_section=self.fake_default_section)
+                config_parser = ConfigParser(
+                    default_section=self.__fake_default_section
+                )
                 config_parser.read(cwd_file)
                 self._init_from_mapping(config_parser)
             elif cwd_file.is_file() and cwd_file.suffix == ".toml":
@@ -304,9 +299,9 @@ class Config:
 
     def __getattr__(self, name: str) -> ConfigSection:
         """Get new section."""
-        return ConfigSection(name, None, self.sep)
+        return ConfigSection(name, None, self.__sep)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> Dict[str, Dict[str, str]]:
         """Return as dict.
 
         Args:
@@ -317,9 +312,9 @@ class Config:
             neglecting environment variables not present there.
         """
         ret_dict: Dict[str, Any] = {}
-        for section in self.config_sections:
+        for section in self.__config_sections:
             ret_dict[section] = self.__getattribute__(section).to_dict()
-        for attribute in self.config_attributes:
+        for attribute in self.__config_attributes:
             ret_dict[attribute] = self.__getattribute__(attribute)()
         return ret_dict
 
@@ -329,7 +324,7 @@ class Config:
         for k, v in self.to_dict().items():
             try:
                 for k1, v1 in v.items():
-                    lines.append(f"{k}{self.sep}{k1}={v1}".upper())
+                    lines.append(f"{k}{self.__sep}{k1}={v1}".upper())
             except AttributeError:
                 lines.append(f"{k}={v}".upper())
         return "\n".join(sorted(lines))
