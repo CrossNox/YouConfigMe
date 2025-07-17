@@ -55,8 +55,9 @@ def test_to_bool_types(config_dict) -> None:
     """Test typing"""
     x: bool
     x = config_dict.yes.k1(cast=to_bool)
-    x = config_dict.yes.k2(cast=to_bool)
-    x = config_dict.yes.k3(cast=to_bool)
-    x = config_dict.yes.k4(cast=to_bool)
-    x = config_dict.yes.k5(cast=to_bool)
-    x = config_dict.yes.k6(cast=to_bool)
+
+
+@pytest.mark.mypy_testing
+def test_to_bool_bad_types(config_dict) -> None:
+    """Test typing"""
+    x: int = config_dict.yes.k1(cast=to_bool)  # E: lala
