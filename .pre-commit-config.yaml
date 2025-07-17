@@ -32,7 +32,7 @@ repos:
       entry: mypy
       language: system
       types: [python]
-      exclude: docs
+      exclude: docs|tests/test_typing\.py
     - id: pylint
       name: pylint
       entry: pylint

@@ -1,0 +1,3 @@
+[flake8]
+per-file-ignores =
+	tests/test_typing.py: E501,F841
