@@ -4,7 +4,7 @@
 # pylint: disable=missing-function-docstring
 # pylint: disable=unused-variable
 
-from typing import Any, Dict, List
+from typing import Dict, List
 
 import pytest
 from youconfigme import Config, ConfigSection
@@ -62,13 +62,13 @@ def test_invalid_cast_function_signature() -> None:
 @pytest.mark.mypy_testing
 def test_cast_return_type_mismatch() -> None:
     """Test mismatch between cast return type and variable type."""
-    config = Config(from_items={"test": {"items": "a,b,c"}})
+    config = Config(from_items={"test": {"numbers": "a,b,c"}})
 
     def parse_to_list(value: str) -> List[str]:
         return value.split(",")
 
     # Expecting List[int] but cast returns List[str]
-    numbers: List[int] = config.test.items(cast=parse_to_list)  # E: Incompatible types in assignment (expression has type "List[str]", variable has type "List[int]")  [assignment]
+    numbers: List[int] = config.test.numbers(cast=parse_to_list)  # E: Argument "cast" to "__call__" of "ConfigAttribute" has incompatible type "Callable[[str], list[str]]"; expected "Callable[[str], list[int]]"  [arg-type]
 
 
 @pytest.mark.mypy_testing
